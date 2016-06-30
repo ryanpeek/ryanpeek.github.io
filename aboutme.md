@@ -16,4 +16,4 @@ I'm a doctoral (PhD) candidate in Ecology at UC Davis, a researcher at the Cente
 
 When I'm not in the office coding (I'm an R junkie!), you can find me in places like this...
 
-![falls](/img/IMG_0585.JPG)
+![falls](/img/IMG_0585.jpg)
