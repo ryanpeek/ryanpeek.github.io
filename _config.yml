@@ -1,0 +1,19 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+title: Rivers & Ranids
+email: rapeek *at* ucdavis *dot* edu
+description: > # this means to ignore newlines until "baseurl:"
+   I'm a doctoral (PhD) candidate in Ecology at UC Davis, and a researcher at the Center for Watershed Sciences. Welcome to my website...still a work in progress.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://ryan-ucd.github.io" # the base hostname & protocol for your site
+twitter_username: riverpeek
+github_username:  ryan-ucd
+
+# Build settings
+markdown: kramdown
