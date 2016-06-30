@@ -1,23 +1,55 @@
 ---
-layout: default
+layout: page
+title: Rivers & Ranids
+subtitle: A blog about Rivers (and Frogs)!
+meta-title: "Ryan Peek"
+meta-description: "PhD graduate student in Ecology with a Masters in Conservation Genetics, researcher at Center for Watershed Sciences, UCD. Also Professional Beard Wearer and Dad."
+bigimg:
+  - "/img/big-imgs/EastVidetteMountain.jpg" : "East Vidette Mountain, Sequoia/Kings Canyon National Park (2007)"
+  - "/img/big-imgs/youshallnotpass.jpg" : "Wizard, White Mountain (2015)"
+  - "/img/big-imgs/Crescent_moon_lake.jpg" : "Crescent Moon Lake, Stanislaus (2013)"
+  - "/img/big-imgs/havasu16.jpg" : "Havasu, Grand Canyon (2016)"
+  - "/img/big-imgs/PSRE.jpg" : "Pseudacris regilla [Pacific chorus frog] (2016)"
+  - "/img/big-imgs/P1140192.jpg" : "Colorado River at Bedrock, Grand Canyon (2016)"
 ---
 
-<div class="home">
+<div class="posts-list">
+  {% for post in paginator.posts %}
+  <article class="post-preview">
+    <a href="{{ post.url | prepend: site.baseurl }}">
+	  <h2 class="post-title">{{ post.title }}</h2>
 
-  <h1 class="page-heading">Posts</h1>
+	  {% if post.subtitle %}
+	  <h3 class="post-subtitle">
+	    {{ post.subtitle }}
+	  </h3>
+	  {% endif %}
+    </a>
 
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+    <p class="post-meta">
+      Posted on {{ post.date | date: "%B %-d, %Y" }}
+    </p>
 
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
+    <div class="post-entry">
+      {{ post.content | strip_html | xml_escape | truncatewords: 50 }}
+	  <a href="{{ post.url | prepend: site.baseurl }}" class="post-read-more">[Read&nbsp;More]</a>
+    </div>
 
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-
+   </article>
+  {% endfor %}
 </div>
+
+{% if paginator.total_pages > 1 %}
+<ul class="pager main-pager">
+  {% if paginator.previous_page %}
+  <li class="previous">
+    <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Newer Posts</a>
+  </li>
+  {% endif %}
+  {% if paginator.next_page %}
+  <li class="next">
+    <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older Posts &rarr;</a>
+  </li>
+  {% endif %}
+</ul>
+{% endif %}
