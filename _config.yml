@@ -2,6 +2,8 @@
 url: "http://ryanpeek.github.io"
 baseurl: ""
 
+port: 4000
+host: 127.0.0.1
 # To run in jekyll: bundle exec jekyll serve
 # and go to http://127.0.0.1:4000/
 
