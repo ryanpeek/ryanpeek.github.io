@@ -11,20 +11,6 @@
   <meta name="description" content="{{ page.subtitle }}">
   {% endif %}
 
-  {% if page.maps %}
-    <script src="libs/jquery/jquery.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="libs/bootstrap/css/flatly.min.css" rel="stylesheet" />
-    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
-    <script src="libs/bootstrap/shim/html5shiv.min.js"></script>
-    <script src="libs/bootstrap/shim/respond.min.js"></script>
-    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
-    <link href="libs/leaflet/leaflet.css" rel="stylesheet" />
-    <script src="libs/leaflet/leaflet.js"></script>
-    <link href="libs/leafletfix/leafletfix.css" rel="stylesheet" />
-    <script src="libs/leaflet-binding/leaflet.js"></script>
-   {% endif %}
-
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
 
   {% if layout.common-ext-css %}
