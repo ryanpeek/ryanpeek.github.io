@@ -1,18 +1,18 @@
 # --- General options --- #
-
-# url is the full website URL
-# baseurl is the website's URL without the hostname
-
-# If you are building a GitHub project page then use these settings:
-#url: "http://username.github.io/projectname"
-#baseurl: "/projectname"
-
 url: "http://ryanpeek.github.io"
 baseurl: ""
+
+# To run in jekyll: bundle exec jekyll serve
+# and go to http://127.0.0.1:4000/
+
+# If you are building a GitHub project page:
+#url: "http://username.github.io/projectname"
+#baseurl: "/projectname"
 
 # Name of website
 title: Rivers & Ranids
 bigimg: "/img/20150912_shallnotpass.jpg"
+
 # Short description of your site
 description: A blog about Rivers (and Frogs)!
 
@@ -23,8 +23,12 @@ navbar-links:
   About Me: "aboutme"
   Site Resources:
     - Built using 'Beautiful Jekyll': "http://deanattali.com/beautiful-jekyll/"
-    - GitHub Pages: "https://pages.github.com/"
-  Author's home: "http://ryanpeek.github.io"
+    - R: "https://cran.r-project.org/"
+  Shiny Apps:
+    - Thermohydrographs: "http://shiny.cws.ucdavis.edu:3838/shiny/rapeek/thermohydrographs/"
+    - Humboldt Refuge Climate Comparison: "http://shiny.cws.ucdavis.edu:3838/shiny/rapeek/Humboldt_GCM/"
+    - Tadpole Gosner Staging: "http://shiny.cws.ucdavis.edu:3838/shiny/rapeek/Gosner_photos/ "
+  Research: "https://dl.dropboxusercontent.com/u/108583959/RABO_sites.html"
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
@@ -40,8 +44,8 @@ author:
   facebook: yourname  # no
   github: ryanpeek    # yes
   twitter: riverpeek
-  linkedin: yourlink  # eg. "pub/dean-attali/8/946/143"
-  stackoverflow: yourlink  # eg. "3943160/daattali"
+  linkedin: yourlink  # eg. "pub/userid/8/946/143"
+
 
 # Select which links to show in the footer
 footer-links-active:
@@ -55,7 +59,7 @@ footer-links-active:
 
 # How to display the link to the website in the footer
 # Remove this if you don't want a link in the footer
-url-pretty: "ryanpeek.github.io"  # eg. "deanattali.com/beautiful-jekyll"
+url-pretty: "ryanpeek.github.io"
 
 # --- Misc --- #
 
