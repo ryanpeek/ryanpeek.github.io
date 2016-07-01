@@ -23,14 +23,19 @@ description: A blog about Rivers (and Frogs)!
 # List of links in the navigation bar
 navbar-links:
   About Me: "aboutme"
-  Site Resources:
-    - Built using 'Beautiful Jekyll': "http://deanattali.com/beautiful-jekyll/"
-    - R: "https://cran.r-project.org/"
   Shiny Apps:
     - Thermohydrographs: "http://shiny.cws.ucdavis.edu:3838/shiny/rapeek/thermohydrographs/"
-    - Humboldt Refuge Climate Comparison: "http://shiny.cws.ucdavis.edu:3838/shiny/rapeek/Humboldt_GCM/"
-    - Tadpole Gosner Staging: "http://shiny.cws.ucdavis.edu:3838/shiny/rapeek/Gosner_photos/ "
-  Research: "https://dl.dropboxusercontent.com/u/108583959/RABO_sites.html"
+    - Humboldt NWR Climate: "http://shiny.cws.ucdavis.edu:3838/shiny/rapeek/Humboldt_GCM/"
+    - Tadpole Gosner Staging: "http://shiny.cws.ucdavis.edu:3838/shiny/rapeek/Gosner_photos/"
+  Research:
+    - Rana boylii: "https://dl.dropboxusercontent.com/u/108583959/RABO_sites.html"
+    - Sierra Rivers Monitoring: "https://watershed.ucdavis.edu/project/long-term-river-monitoring"
+    - River Time-Lapse: "https://vimeo.com/164154774"
+  Resources:
+    - Beautiful Jekyll: "http://deanattali.com/beautiful-jekyll/"
+    - Data Carpentry: "http://www.datacarpentry.org/"
+    - Software Carpentry: "http://software-carpentry.org/"
+    - Davis R Users Group: "https://d-rug.github.io/"
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
