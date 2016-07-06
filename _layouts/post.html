@@ -10,7 +10,7 @@ layout: base
       <article role="main" class="blog-post">
 	      {{ content }}
 	    </article>
-	  	  
+
       <ul class="pager blog-pager">
         {% if page.previous.url %}
         <li class="previous">
@@ -23,7 +23,7 @@ layout: base
         </li>
         {% endif %}
       </ul>
-      
+
 	    {% if page.comments %}
         <div class="disqus-comments">
 	        {% include disqus.html %}
@@ -32,3 +32,7 @@ layout: base
     </div>
   </div>
 </div>
+
+<!-- htmlwidgets dependencies -->
+{% assign dep_file = page.url | split: '/' | last | prepend : 'htmlwidgets/' | append:'.html'  %}
+{% include {{dep_file}} %}
