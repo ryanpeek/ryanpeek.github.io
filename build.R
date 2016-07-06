@@ -29,7 +29,9 @@ local({
   }
   knitr::opts_knit$set(width = 70)
   knitr::knit(a[1], a[2], quiet = TRUE, encoding = 'UTF-8', envir = .GlobalEnv)
-  brocks::htmlwidgets_deps(a, always = TRUE)
+  #brocks::htmlwidgets_deps(a, always = TRUE)
 })
 
+# to use the htmlwidgets see article and code, can't seem to get it to play nice with
+# awesome jekyll design
 # Need this installed first: devtools::install_github("brendan-R/brocks")
