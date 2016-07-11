@@ -1,10 +1,12 @@
 ---
 layout: page
-title: About me
-subtitle: ribbit ribbit
+title: ""
+subtitle: "Who Am I?" 
 ---
 
-## Who Am I?
+> *"When we try to pick out anything by itself, we find it hitched to everything else in the universe." (John Muir --- My First Summer in the Sierra, 1911)*
+
+#### Welcome!
 
 This is a first draft at a website for blogging/mapping/shiny-ing and more. I hope to link up to some of the research projects and data that I work with (some cool [shiny](http://shiny.rstudio.com/) apps [**here**][thermohydrographs] and [**here**][gosnerstages]), and write about some of my field adventures.  Stay tuned as I continue to build this out...still learning the tools of the trade, and I've put this off for way too long. [^1]
 
