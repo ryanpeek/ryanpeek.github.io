@@ -1,0 +1,37 @@
+---
+title: "Quoted"
+categories: blog
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+output: pdf_document
+layout: post
+excerpt: Summary for Twitter cards, etc.
+bibliography: '../Peek-bibkey-2016.bib'
+---
+
+feature and teaser image paths start at website/images/
+
+images in post are specified as "/images/blog/..."
+
+Save in website/_Rmd as post-name.rmd, source _Rutil/knitpost.R and call knitAll or knitPost
+
+
+### RMarkdown blogging
+
+#- .Rmd files go in _Rmd
+#- source Rutils/knitpost
+#- call knitpost('file-name') or knitAll()
+#- .md file should land in _posts/blog/
+#- On `bundle exec jekyll build`, .html should end up in _site/blog/new-post_title/index.html
+#- image paths are specified as images/, so specify, e.g. as blog/my-image.png
+
+```{r}
+library(RefManageR)
+bib <- ReadBib("../Peek-bibkey-2016.bib") # Change to whatever is your .bib file
+myopts <- BibOptions(bib.style = "authoryear", style="latex", first.inits=FALSE, max.names = 20)
+Citet(bib, author="lind", .opts=list(cite.style="numeric", super=TRUE))
+
+```
+
+## Required Readings
+
+Read this stuff [@Lind2011, @Kupferberg1996]
