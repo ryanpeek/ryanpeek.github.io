@@ -7,4 +7,4 @@ _site/
 data/
 .Rhistory
 .RData
-_source/
+_Rmd/
