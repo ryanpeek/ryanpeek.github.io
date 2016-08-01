@@ -10,7 +10,9 @@ _site/
 .Rprofile
 .Rhistory
 .RData
+.Rprofile
 
 # random
 data/
 _Rmd/
+_cache/
