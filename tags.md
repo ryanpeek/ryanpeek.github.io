@@ -1,35 +1,42 @@
 ---
-title: Tags
-description: Tag list from the blog
+title: Archives
+description: Blog tags
 permalink: /tags/
 ---
 
-{% assign tags_list = site.tags %}
+# Tags
+Search by keywords, click on tag to go to posts.
 
-<h2 class='tag-header'>Tag List</h2>
-<ul>
+<div class='list-group'>
+  {% assign tags_list = site.tags %}
+
   {% if tags_list.first[0] == null %}
     {% for tag in tags_list %}
-      <li>
-        <a href="/tags#{{ tag | slugify }}-ref" class='list-group-item'>{{ tag | capitalize }}</a>
-        <span class='badge-success'>{{ site.tags[tag].size }}</span>
-      </li>
+      <a href="/tags#{{ tag }}-ref" class='list-group-item'>
+        {{ tag }} <span class='badge'>{{ site.tags[tag].size }}</span>
+      </a>
     {% endfor %}
   {% else %}
     {% for tag in tags_list %}
-      <li>
-        <a href="/tags#{{ tag[0] | slugify }}-ref" class='list-group-item'>{{ tag[0] | capitalize }}</a>
-        <span class='badge-success'>{{ tag[1].size }}</span>
-      </li>
+      <a href="/tags#{{ tag[0] }}-ref" class='list-group-item'>
+        {{ tag[0] }} <span class='badge'>{{ tag[1].size }}</span>
+      </a>
     {% endfor %}
   {% endif %}
-</ul>
-{% assign tags_list = nil %}
 
-<hr />
+  {% assign tags_list = nil %}
+</div>
+
+<hr>
+
+
+# *Posts*
+
+- - -
+
 
 {% for tag in site.tags %}
-  <h2 class='tag-header' id="{{ tag[0] | slugify }}-ref">{{ tag[0] | capitalize }}</h2>
+  <h2 class='tag-header' id="{{ tag[0] }}-ref">{{ tag[0] }}</h2>
   <ul>
     {% assign pages_list = tag[1] %}
 
@@ -48,4 +55,4 @@ permalink: /tags/
     {% assign pages_list = nil %}
     {% assign group = nil %}
   </ul>
-  {% endfor %}
+{% endfor %}

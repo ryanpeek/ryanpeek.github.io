@@ -3,10 +3,7 @@ title: "Leeches, Giant-Toe Biters, and Frogs"
 comments: true
 date: "2016-08-01"
 layout: post
-tags: 
-  - meadows
-  - frogs
-  - field
+tags: [meadows, frogs, field]
 ---
 
 Ever seen a leech? How about a Giant Toebiter? Well they exist...and often in the same place! During some recent work in the Yuba watershed, a great group of folks from [Earth Watch](http://earthwatch.org/expeditions) came along to help with amphibian surveys a few different meadows. I think it's possibly one of my favorite experiences to help teach/explore nature with curious and inquisitive people, young or old. All were teachers from the East Coast, and we had a great time surveying for amphibians in wetlands and streams throughout the area. For the most part, the meadows (as much of the Sierra Nevada) are still grazed by cattle, and there are non-native trout in the stream. The combination of those two things tends to make the probability of finding amphibians somewhat low...however, pacific chorus frogs have an uncanny ability to occur nearly everywhere and we found a few adults as well as tapdoles at multiple locations in the region.
