@@ -13,9 +13,10 @@ title: Rivers & Ranids
 bigimg: "/img/20150912_shallnotpass.jpg"
 
 # Short description of your site
-description: A blog about Rivers (and Frogs)!
-baseurl: ""
 url: "http://ryanpeek.github.io"
+baseurl: ""
+description: A blog about Rivers (and Frogs)!
+
 
 # --- Navigation bar options --- #
 
@@ -24,6 +25,7 @@ navbar-links:
   About Me: 
     - Quick Bio: "aboutme"
     - CV: "cv"
+    - Archives: "tags"
   Research:
     - Rana boylii: "RanaBoylii.html"
     - Sierra Rivers Monitoring: "https://watershed.ucdavis.edu/project/long-term-river-monitoring"
@@ -50,15 +52,17 @@ avatar: "/img/P1080821.JPG"
 author:
   name: Ryan
   email: "rapeek @ ucdavis.edu"
-  facebook: yourname  # no
-  github: ryanpeek    # yes
+  facebook: yourname  # eg. daattali
+  github: ryanpeek
   twitter: riverpeek
-  linkedin: yourlink  # eg. "pub/userid/8/946/143"
+  linkedin: yourlink  # eg. "pub/dean-attali/8/946/143"
+  stackoverflow: yourlink  # eg. "3943160/daattali"
+  
 
 
 # Select which links to show in the footer
 footer-links-active:
-  rss: false
+  rss: true
   facebook: false
   email: true
   twitter: true
@@ -73,7 +77,7 @@ url-pretty: "ryanpeek.github.io"
 # --- Misc --- #
 
 # Fill in your Disqus shortname (NOT the userid) if you want to support Disqus comments
-#disqus: ""
+disqus: "ryanpeek-github-io"
 
 # Fill in your Google Analytics ID to track your website using GA
 google_analytics: "UA-80552998-1"
@@ -114,6 +118,7 @@ exclude:
   - README.md
   - CNAME
   - Vagrantfile
+  - .DS_Store
 
 # prose.io config
 prose:
@@ -162,6 +167,6 @@ prose:
 
 gems:
   - jekyll-paginate
-
+  
 # Beautiful Jekyll / Dean Attali
 # 2fc73a3a967e97599c9763d05e564189

@@ -1,9 +1,7 @@
 ---
 title: "Mountain Lion Face-off!"
-categories: blog
 date: "2016-07-21"
 layout: post
-excerpt: Seeing a big cat...
 ---
 
 A few updates...mainly *I had a stare down with a mountain lion!* Pretty astounding, a bit nerve-wracking, but generally a very cool experience. Alas I only have a blurry picture to show for it, I was more concerned with making noise and appearing large than getting a great picture.
