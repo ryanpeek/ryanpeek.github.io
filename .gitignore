@@ -6,7 +6,7 @@ _site/
 # R Specific
 .DS_Store
 .Rproj.user
-.Rproj
+*.Rproj
 .Rhistory
 .RData
 .Rprofile
