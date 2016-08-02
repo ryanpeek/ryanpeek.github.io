@@ -7,12 +7,10 @@ _site/
 .DS_Store
 .Rproj.user
 .Rproj
-/.Rprofile
 .Rhistory
 .RData
 .Rprofile
 
 # random
 data/
-_Rmd/
 _cache/

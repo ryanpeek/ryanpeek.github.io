@@ -1,0 +1,104 @@
+---
+title: "Using Flexdashboard"
+categories: blog
+layout: post
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+output: 
+  flexdashboard::flex_dashboard:
+    theme: journal
+    source: embed
+    orientation: columns
+    vertical_layout: scroll
+    logo: ../img/fylf_icon.png
+---
+
+```{r setup, include=FALSE}
+
+library(flexdashboard)
+library(ggplot2)
+library(plotly)
+library(dygraphs)
+library(dplyr)
+library(viridis)
+
+## FYI you can create an icon with `convert photo.png -resize 72x92 photo2.png`
+
+```
+
+# Flexdashboards Overview {data-icon="fa-leaf"}
+
+##  Flexdashboards {.sidebar}
+
+I want to talk about how cool [*flexdashboards*](http://rmarkdown.rstudio.com/flexdashboard/) are, and give you an example of a page made using flexdashboard! You can also see a flexdashboard creation under the `Research/Rana Boylii` page of the website. 
+
+![frog](../img/fylf_icon.png)
+
+Column
+-----------------------------------------------------------------------
+
+#### Flexdashboards in RStudio
+
+What really makes flexdashboards great is that they are highly integrated with RMarkdown and make it really easy (*and flexible!*) to incorporate text, graphics, shiny apps, etc. into a compact and aesthetically dynamic document. 
+
+![frog2](../img/fylfrog_icon.png)
+
+# Flex! {data-icon="fa-map"}
+
+Column {data-width=800}
+-----------------------------------------------------------------------
+
+### River Stage on NFA
+
+```{r nfa}
+# load data
+load(".././data/2011-2015_solinst_mainstem_hourly_compensated.rda")
+nfa<- hrly2 %>% 
+  filter(site=="NFA" & WY==2015) %>%
+  select(Datetime, Level, wyd)
+nfa2 <- ggplot() +  geom_line(data=nfa, aes(x=Datetime, y=Level), color="gray40") +
+  geom_point(data=nfa, aes(x=Datetime, y=Level, color=Level),
+             pch=21, fill="gray", alpha=0.7) + theme_bw() +
+  scale_color_viridis() + ylab("Stage (m)")
+ggplotly(nfa2)
+
+```
+
+### River Stage on MFA
+
+```{r mfa}
+# load data
+load(".././data/2011-2015_solinst_mainstem_hourly_compensated.rda")
+mfa<- hrly2 %>% 
+  filter(site=="MFA" & WY==2015) %>%
+  select(Datetime, Level, wyd)
+mfa2 <- ggplot() + geom_line(data=mfa, aes(x=Datetime, y=Level), color="gray40") +
+  geom_point(data=mfa, aes(x=Datetime, y=Level, color=Level),
+             pch=21, fill="gray", alpha=0.7) + theme_bw() + ylab("Stage (m)") + 
+  scale_color_viridis()
+ggplotly(mfa2)
+
+```
+
+Column {.tabset data-width=400}
+-----------------------------------------------------------------------
+
+### Photos
+
+![FYLF Eggs](../img/P1020843-closeup-EM-soccerball.jpg)  
+
+### Cartoons
+
+![SP](../img/404-southpark.jpg)
+
+### Text!
+
+Write some really amazing words here...maybe a list of words you could use instead of amazing, such as:
+
+ - Stupendous
+ - Superb
+ - Spectacular
+ - Outstanding
+ - Awesome
+ - Dogs Bollocks 
+ - Deadly
+
