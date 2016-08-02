@@ -7,7 +7,7 @@ _site/
 .DS_Store
 .Rproj.user
 .Rproj
-.Rprofile
+/.Rprofile
 .Rhistory
 .RData
 .Rprofile
