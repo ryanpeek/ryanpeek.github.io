@@ -1,0 +1,122 @@
+---
+title: "Quoted"
+categories: blog
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+comments: true
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+layout: post
+tags: [leaflet, field]
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(plotly)
+library(dygraphs)
+library(dplyr)
+library(viridis)
+```
+
+
+feature and teaser image paths start at website/images/
+
+images in post are specified as "/images/blog/..."
+
+Save in website/_Rmd as post-name.rmd, source _Rutil/knitpost.R and call knitAll or knitPost
+
+
+### RMarkdown blogging
+
+#- .Rmd files go in _Rmd
+#- source Rutils/knitpost
+#- call knitpost('file-name') or knitAll()
+#- .md file should land in _posts/blog/
+#- On `bundle exec jekyll build`, .html should end up in _site/blog/new-post_title/index.html
+#- image paths are specified as images/, so specify, e.g. as blog/my-image.png
+
+```{r echo=F, warning=F, message=F}
+
+library(leaflet); library(rgdal); library(dplyr)
+
+# Projection
+WGS84 <- "+proj=longlat +ellps=WGS84 +datum=WGS84"
+
+t1 <- readOGR("data/2016-06-28-NFA-Sailor.GPX", layer="tracks", verbose = FALSE)
+p1 <- readOGR("data/2016-06-28-NFA-Sailor_points.GPX", layer="waypoints", verbose = FALSE)
+
+p1<-spTransform(p1, CRS(WGS84))
+t1<-spTransform(t1, CRS(WGS84))
+
+mapSailor <- leaflet() %>% addTiles() %>% 
+  setView(lng = -120.49312, lat = 39.209, zoom = 12) %>%  # set to Auburn/Colfax, zoom 5 for CA 
+  addTiles(group = "OSM") %>%
+  addProviderTiles("Stamen.TopOSMFeatures", group = "OSM Features") %>%
+  addProviderTiles("Esri.WorldImagery", group = "ESRI Aerial") %>%
+  addProviderTiles("Thunderforest.Landscape", group = "Topo") %>%
+  hideGroup("OSM Features") %>% 
+
+  # PhD samples
+  addCircleMarkers(data=p1, group="Rana boylii",
+                   popup = paste0("Name: ", 
+                                  p1@data$name, "<br>","Description: ",
+                                  p1@data$desc),
+                   stroke=TRUE, weight=0.6,radius=11,
+                   fillOpacity = 0.8, color="black",
+                   fillColor = "yellow") %>%
+  
+  # Sailor Canyon hike
+  addPolylines(data=t1, group="Sailor Trail",
+               popup = paste0("Name: ", t1@data$name),
+               stroke=TRUE, weight=0.9,
+               fillOpacity = 0.8, color="maroon") %>%
+  
+  # add controls for basemaps and data
+  addLayersControl(
+    baseGroups = c("OSM", "ESRI Aerial", "Topo"),
+    overlayGroups = c("Rana boylii",
+                      "Sailor Canyon Trail", "OSM Features"),
+    options = layersControlOptions(collapsed = T))
+
+mapSailor
+  
+```
+
+#### Script:
+```{r echo=T, eval=FALSE, message=FALSE}
+library(leaflet); library(rgdal); library(dplyr)
+# Projection  
+WGS84 <- "+proj=longlat +ellps=WGS84 +datum=WGS84"  
+# read in GPX  
+t1 <- readOGR("data/2016-06-28-NFA-Sailor.GPX", layer="tracks")  
+p1 <- readOGR("data/2016-06-28-NFA-Sailor_points.GPX", layer="waypoints")  
+# transform
+p1<-spTransform(p1, CRS(WGS84))
+t1<-spTransform(t1, CRS(WGS84))
+# make a map!
+m <- leaflet() %>% addTiles() #this is shortened
+setView(lng = -120.49312, lat = 39.209, zoom = 10) %>%  # set to Auburn/Colfax, zoom 5 for CA 
+  addTiles(group = "OSM") %>%
+  addProviderTiles("Stamen.TopOSMFeatures", group = "OSM Features") %>%
+  addProviderTiles("Esri.WorldImagery", group = "ESRI Aerial") %>%
+  addProviderTiles("Thunderforest.Landscape", group = "Topo") %>%
+  hideGroup("OSM Features") %>% 
+# PhD samples
+  addCircleMarkers(data=p1, group="Rana boylii",
+                   popup = paste0("Name: ", 
+                                  p1@data$name, "<br>","Description: ",
+                                  p1@data$desc),
+                   stroke=TRUE, weight=0.6,radius=11,
+                   fillOpacity = 0.8, color="black",
+                   fillColor = "yellow") %>%
+  # Sailor Canyon hike
+  addPolylines(data=t1, group="Sailor Canyon Trail",
+               popup = paste0("Name: ", t1@data$name),
+               stroke=TRUE, width=0.9,
+               fillOpacity = 0.8, color="maroon") %>%
+  # add controls for basemaps and data
+  addLayersControl(
+    baseGroups = c("OSM", "ESRI Aerial", "Topo"),
+    overlayGroups = c("Rana boylii",
+                      "Sailor Canyon Trail", "OSM Features"),
+    options = layersControlOptions(collapsed = T))
+m
+```
