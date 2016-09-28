@@ -3,7 +3,6 @@ title: "Quoted"
 categories: blog
 date: "`r format(Sys.time(), '%Y-%m-%d')`"
 layout: post
-excerpt: Summary for Twitter cards, etc.
 bibliography: '../Peek-bibkey-2016.bib'
 ---
 
@@ -16,21 +15,34 @@ Save in website/_Rmd as post-name.rmd, source _Rutil/knitpost.R and call knitAll
 
 ### RMarkdown blogging
 
-#- .Rmd files go in _Rmd
-#- source Rutils/knitpost
-#- call knitpost('file-name') or knitAll()
-#- .md file should land in _posts/blog/
-#- On `bundle exec jekyll build`, .html should end up in _site/blog/new-post_title/index.html
-#- image paths are specified as images/, so specify, e.g. as blog/my-image.png
+ - .Rmd files go in `_Rmd`
+ - `source(Rutils/knitpost`
+ 
+ - call `knitPost('file-name')` or `knitAll()`
+ - .md file should land in _posts/blog/
+ - On `bundle exec jekyll build`, .html should end up in `_site/blog/new-post_title/index.html`
+ - image paths are specified as images/, so specify, e.g. as "blog/my-image.png"
 
+ 
 ```{r}
-library(RefManageR)
+source("./_Rutil/knitpost.R")
+knitPost('static_maps_in_R.Rmd')
+```
+
+### Preview Site with Jekyll
+
+Use `bundle exec jekyll serve` to build a local version of the website. You can also use `bundle exec jekyll serve --no-watch` to avoid the auto watch for changes. To end, just use `bundle exec jekyll serve --detach` to kill process.
+
+```{r refs, warning=FALSE}
+library(RefManageR, quietly = T, verbose = F)
 bib <- ReadBib("../Peek-bibkey-2016.bib") # Change to whatever is your .bib file
-myopts <- BibOptions(bib.style = "authoryear", style="latex", first.inits=FALSE, max.names = 20)
-Citet(bib, author="lind", .opts=list(cite.style="numeric", super=TRUE))
+#myopts <- BibOptions(bib.style = "authoryear", style="latex", first.inits=FALSE, max.names = 20)
+#Citet(bib, author="lind", .opts=list(cite.style="numeric", super=TRUE))
 
 ```
 
 ## Required Readings
 
 Read this stuff [@Lind2011, @Kupferberg1996]
+
+## Citations

@@ -26,12 +26,12 @@ Save in website/_Rmd as post-name.rmd, source _Rutil/knitpost.R and call knitAll
 
 ### RMarkdown blogging
 
-#- .Rmd files go in _Rmd
-#- source Rutils/knitpost
-#- call knitpost('file-name') or knitAll()
-#- .md file should land in _posts/blog/
-#- On `bundle exec jekyll build`, .html should end up in _site/blog/new-post_title/index.html
-#- image paths are specified as images/, so specify, e.g. as blog/my-image.png
+ - .Rmd files go in `_Rmd`
+ - `source(Rutils/knitpost`
+ - call `knitpost('file-name')` or `knitAll()`
+ - .md file should land in _posts/blog/
+ - On `bundle exec jekyll build`, .html should end up in `_site/blog/new-post_title/index.html`
+ - image paths are specified as images/, so specify, e.g. as "blog/my-image.png"
 
 ```{r echo=F, warning=F, message=F}
 
