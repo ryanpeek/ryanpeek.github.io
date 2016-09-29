@@ -2,7 +2,7 @@
 title: "Creating Static Maps for Manuscripts in R"
 categories: blog
 comments: true
-date: "2016-09-28"
+date: "2016-09-29"
 layout: post
 tags: [meadows, frogs, field, hiking]
 ---
@@ -199,7 +199,7 @@ rivers<-spTransform(rivers, lats84) # add the projection so it matches
 
 ## Making a Basic Map!
 
-Now that we spent some time figuring out our CRS and loading up some files, we can make a basic map using the `maps` and `mapsdata` packages. I'm using the `viridis` package to pull some nice colors for use in the map. Not necessary, but just throwing it out there.
+Now that we spent some time figuring out our CRS and loading up some files, we can make a basic map using the `maps` and `mapsdata` packages. I'm using the `viridis` package to pull some nice colors for use in the map. Not necessary, but just throwing it out there. The basic plotting package is nice, and allows you to specify location and region (world wide or within US). I've limited to a specific lat and long range using the `xlim` and `ylim` functions.
 
 
 {% highlight r %}
@@ -209,9 +209,12 @@ pal <- viridis_pal()(6)
 
 # this is using the `maps` and `mapsdata` package
 # start by plotting the state/county
-map("state",region=c('CA'))
-map("county",region=c('CA'),boundary=FALSE,lty=3,add=TRUE)
-lines(rivers, col="#2A788EFF", lwd=1.1)
+
+map("state",region=c('CA'), xlim = c(-122.5,-119.5), ylim=c(38,40.5))
+map.axes()
+map("county",region=c('CA'),boundary=FALSE,lty=3,
+    xlim = c(-122.5,-119.5), ylim=c(38,40.5), add=TRUE)
+lines(rivers, col="#2A788EFF", lwd=1.1, xlim = c(-122.5,-119.5), ylim=c(38,40.5))
 
 # add our point data from earlier
 points(sites.SP, cex=1.4, pch=21, bg="#FDE725FF")
@@ -224,13 +227,21 @@ text(sites.SP, labels=as.character(sites.SP@data$RIVER), col="gray20",
 legend("topright", border = "gray80",box.lwd = 1.5, box.col = "gray80",
        legend=c("Major Rivers", "Study Sites"),
        title="Study Map", bty="o", inset=0.05,
-       lty=c( 1,-1,-1), pch=c(-1,21, 1), cex=0.7,
-       col=c("#2A788EFF", "#FDE725FF"))
+       lty=c( 1,-1,-1), pch=c(-1,21, 1), cex=0.8,
+       col=c("#2A788EFF", "black"), pt.bg=c(NA, "#FDE725FF"))
+
+# add a box for the scale bar
+rect(-122.47, ybottom = 38.03, xright = -121.6, ytop = 38.4, col = "white", border = "transparent")
+
+# add north arrows
+library(GISTools)  
+north.arrow(xb=-122.2, yb=38.5, len=0.07, lab="N", col="gray30",cex.lab = 0.9)
+map.scale(xc = -122.05, yc=38.3, len=0.7, units = "km",subdiv = 5, sfcol = "white", ndivs = 3)
 {% endhighlight %}
 
 <img src="/img/Rfig/2016-09-28-static_maps_in_R.Rmd//basic map-1.svg" title="plot of chunk basic map" alt="plot of chunk basic map" width="100%" />
 
-Ok, so it's basic, and things are clustered up, but it's a decent map. There are ways to zoom to your study area, and you would probably want to add a scale bar and potentially a north arrow, but overall it's functional and was pretty easy to create. On to a fancier map using the ggplot framework.
+Ok, so it's basic, and things are a bit clustered up, but it's a decent map. There are ways to zoom to your study area, and you would probably want to play with the scale bar and north arrow a bit, but overall it's functional and was pretty easy to create. On to a fancier map using the ggplot framework!
 
 ## GGPLOT2 Map (`ggmap`)
 
