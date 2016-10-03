@@ -2,7 +2,7 @@
 title: "Creating Static Maps for Manuscripts in R"
 categories: blog
 comments: true
-date: "2016-09-29"
+date: "2016-09-28"
 layout: post
 tags: [meadows, frogs, field, hiking]
 ---
