@@ -4,7 +4,7 @@ categories: blog
 comments: true
 date: "`r format(Sys.time(), '%Y-%m-%d')`"
 layout: post
-tags: [meadows, frogs, field, hiking]
+tags: [R, maps, GIS]
 ---
 
 

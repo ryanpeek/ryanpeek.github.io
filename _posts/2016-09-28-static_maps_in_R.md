@@ -4,7 +4,7 @@ categories: blog
 comments: true
 date: "2016-09-28"
 layout: post
-tags: [meadows, frogs, field, hiking]
+tags: [R, maps, GIS]
 ---
 
 
