@@ -26,7 +26,7 @@ Save in website/_Rmd as post-name.rmd, source _Rutil/knitpost.R and call knitAll
  
 ```{r}
 source("./_Rutil/knitpost.R")
-knitPost('static_maps_in_R.Rmd')
+knitPost('2016-10-18-animated-gif_maps_in_R.Rmd')
 ```
 
 ### Preview Site with Jekyll

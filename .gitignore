@@ -13,5 +13,5 @@ ryanpeek.github.io.Rproj
 .Rprofile
 
 # random
-data/
+#data/
 _cache/
