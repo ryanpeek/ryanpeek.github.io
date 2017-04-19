@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/flori/json.git
+  revision: 7f4cfd853f2c919d854fb95548a19980feff17e8
+  branch: v1.8
+  specs:
+    json (1.8.6)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -86,7 +93,6 @@ GEM
       gemoji (~> 2.0)
       html-pipeline (~> 2.2)
       jekyll (>= 3.0)
-    json (1.8.3)
     kramdown (1.11.1)
     libv8 (3.16.14.15)
     liquid (3.0.6)
@@ -132,7 +138,8 @@ DEPENDENCIES
   execjs
   github-pages
   jekyll-paginate
+  json!
   therubyracer
 
 BUNDLED WITH
-   1.12.5
+   1.13.7
