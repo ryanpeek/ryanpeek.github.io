@@ -2,7 +2,7 @@
 title: "Teaching R to Ecologists"
 categories: blog
 comments: true
-date: "2017-04-04"
+date: "2017-04-19"
 layout: post
 tags: [R, teaching]
 ---
