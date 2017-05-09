@@ -14,7 +14,7 @@ I'm a doctoral (PhD) candidate in Ecology at UC Davis, a researcher at the Cente
 
 ![Rana boylii](/img/P1070160.jpg)
 
-When I'm not in the office coding, helping run the [Davis R-Users Group](d-rug.github.io) (I'm an R junkie!), or editing/designing/writing for [The Aggie Brickyard](aggiebrickyard.github.io), you can find me in places like this...looking for aquatic creatures. [^n]
+When I'm not in the office coding, helping run the [Davis R-Users Group](https://d-rug.github.io) (I'm an R junkie!), or editing/designing/writing for [The Aggie Brickyard](https://aggiebrickyard.github.io), you can find me in places like this...looking for aquatic creatures. [^n]
 
 ![snorkeling below falls](/img/snorkel-missouricnyn.jpg)
 
