@@ -32,7 +32,7 @@ navbar-links:
     - River Time-Lapse: "https://vimeo.com/164154774"
     - Meadows: "http://meadows.ucdavis.edu"
   Shiny Apps:
-    - Thermohydrographs: "http://shiny.cws.ucdavis.edu:3838/shiny/rapeek/thermohydrographs/"
+    - Thermohydrographs: "https://riverpeek.shinyapps.io/thermohydrographs/"
     - Humboldt NWR Climate: "http://shiny.cws.ucdavis.edu:3838/shiny/rapeek/Humboldt_GCM/"
     - Tadpole Gosner Staging: "http://shiny.cws.ucdavis.edu:3838/shiny/rapeek/Gosner_photos/"
   Resources:
