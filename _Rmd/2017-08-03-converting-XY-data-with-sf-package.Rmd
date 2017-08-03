@@ -33,14 +33,13 @@ First we'll need to load a couple packages and then read in some example data. F
 
 ```{r get data, echo=TRUE}
 suppressMessages({
-	library(tidyverse)
+  library(tidyverse)
   library(sf)
   library(htmltab)
 })
-
 ```
 
-#### Grab some Data
+#### Grab Some Hotsprings Data for CA
 
 I'm going to use a table of hotsprings with `LAT` and `LONG` columns. Let's say we want to convert these data into UTMs, or add a set of UTM columns so our colleague can use the data for a comparison. First let's scrape the data (I'm sure there's a prettier way but this just works):
 
@@ -56,13 +55,15 @@ df[cols.num]<-sapply(df[cols.num], as.numeric) # some NA's where there are no te
 df$LONG<-df$LONG*(-1) # because the table doesn't include this important bit
 head(df)
 ```
+
 The chunk above does the following:
+
  - Function from the `htmltab` package goes and grabs the first table on the page, parses it out into a dataframe, and adds custom column names. We should have `303` rows and `8` columns of data, including the temperature in &deg;F and &deg;C. 
  - Then identify the column classes and select columns we want to convert to numeric.
  - Apply those changes to those columns using `sapply`
  - Make sure our longitude is negative, so that these plot in the right hemisphere. :)
 
-#### Make Spatial
+#### Make Data Spatial
 
 Ok, now we need to make the data *spatial*, by assigning it a projection or CRS. Let's assume these data are WGS84, which is [`CRS=4326`](http://spatialreference.org/ref/epsg/4326/), and one of the most commonly used for mapping purposes. The `sf` package has a very easy way of doing this using the `st_as_sf` function. Almost all the `sf` functions begin with `st_`, which is nice and allows us to more easily search though the library.
 
@@ -84,7 +85,7 @@ st_crs(df.SP)
 
 #### Transform or Re-Project  
 
-Ok! The final few steps and we're there. Now that our data is in a "*sf*" class, it's fairly straightforward to switch our projection and append the data to our dataframe. Here we convert to UTMs from lat-long, add those columns, and then convert back to lat-long and add those columns.
+Ok! The final few steps and we're there. Now that our data is in a "*`sf`*" class, it's fairly straightforward to switch our projection, grab the new X/Y columns, and append them to our dataframe for future use. Here we convert to UTMs from lat-long, add those columns, and then convert back to lat-long and add those columns, just because repetition is fun practice.
 
 ```{r transform_add_cols}
 # transform to UTM
