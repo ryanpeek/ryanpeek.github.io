@@ -1,0 +1,139 @@
+---
+categories: blog
+comments: true
+layout: post
+tags: [R, maps]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Converting/Adding Spatial Coordinates
+
+  It's been awhile since I posted. Turns out grad school and two small children require some attention. However, I've been just awful about posting things, and it really is a pretty painless and quick process, so I'm going to try and post something more regularly even if it's a small tidbit of code, or a cool paper, or whatever. I think it will help me get into the habit of making this a bit more of a blog (who knows, maybe even a **useful** blog!?), and less of a static reminder of all the things I haven't done. 
+
+  This post is going to be about converting/adding/extracting X/Y points from a dataframe. I've found the new-ish `sf` package has been an amazing upgrade in R if you work with spatial data. I've found it typically is much faster, and requires less code than previous methods I've used (though that could just be due to my coding abilities!). I recently had to convert some UTM point data into lat-long, and wanted to update my old code (using `rgdal`, `maptools` & `sp`) to take advantage of the `sf` functions. 
+
+### Spatial Data and CRS
+
+  Coordinate reference systems (CRS) (or the lack thereof) are often the bane of anyone who has worked with spatial data. I can't describe the frustration, anxiety, and misery that can come with getting data with missing projection data, or confusion when things plot askew because the data are in 2 different CRS, or when data don't plot at all because they exist in another dimension and you have to learn how to warp time and space to retrieve your data.
+  
+![trying to figure out CRS is like time travel](https://media0.giphy.com/media/5xCDaqOzcVTBm/giphy.gif)
+
+  The good thing is, I can show you some code that will help you convert from one to the other fairly painlessly. The bad thing is, I can't help you find out what that missing CRS might be if you don't already know it.
+  
+### Some Data to Convert  
+
+I work with point data largely, and it often comes in spreadsheets or .csv's with various projections/datums. It might be WGS84 Lat/Lon, and I need to convert it to UTM NAD83. Turns out this is pretty easy using the `sf` package (again, assuming you know the original CRS). You can look up the blinding array of spatial projections [here](http://spatialreference.org/).
+
+First we'll need to load a couple packages and then read in some example data. For this blog entry I'll show a quick way to grab some table data from an html page and make a map of it. 
+
+
+```{r get data, echo=TRUE}
+suppressMessages({
+	library(tidyverse)
+  library(sf)
+  library(htmltab)
+})
+
+```
+
+#### Grab some Data
+
+I'm going to use a table of hotsprings with `LAT` and `LONG` columns. Let's say we want to convert these data into UTMs, or add a set of UTM columns so our colleague can use the data for a comparison. First let's scrape the data (I'm sure there's a prettier way but this just works):
+
+```{r getdata}
+url <- "http://www.hotspringsdirectory.com/usa/ca/gps-usa-ca.html"
+df <- htmltab(url, which=1, header = 1, 
+              colNames = c("STATE","LAT","LONG","SpringName","Temp_F", "Temp_C", "AREA", "USGS_quad") ) # get the data
+
+# convert columns to numeric:
+sapply(df, class)
+cols.num<- c("LAT","LONG", "Temp_F", "Temp_C")
+df[cols.num]<-sapply(df[cols.num], as.numeric) # some NA's where there are no temperatures available
+df$LONG<-df$LONG*(-1) # because the table doesn't include this important bit
+head(df)
+```
+The chunk above does the following:
+ - Function from the `htmltab` package goes and grabs the first table on the page, parses it out into a dataframe, and adds custom column names. We should have `303` rows and `8` columns of data, including the temperature in &deg;F and &deg;C. 
+ - Then identify the column classes and select columns we want to convert to numeric.
+ - Apply those changes to those columns using `sapply`
+ - Make sure our longitude is negative, so that these plot in the right hemisphere. :)
+
+#### Make Spatial
+
+Ok, now we need to make the data *spatial*, by assigning it a projection or CRS. Let's assume these data are WGS84, which is [`CRS=4326`](http://spatialreference.org/ref/epsg/4326/), and one of the most commonly used for mapping purposes. The `sf` package has a very easy way of doing this using the `st_as_sf` function. Almost all the `sf` functions begin with `st_`, which is nice and allows us to more easily search though the library.
+
+Below we need to provide the **CRS**, which we looked up already, and the columns that have the spatial data. One tip, these should be listed in X then Y order...which happens to be `LONG` then `LAT`, or if you are using UTMs, `Easting` then `Northing`.
+
+```{r make spatial, eval=TRUE}
+# make the UTM cols spatial (X/Easting/lon, Y/Northing/lat)
+df.SP <- st_as_sf(df, coords = c("LONG", "LAT"), crs = 4326)
+```
+
+Notice the only change is the addition of a list-column to our dataframe, called `geometry`, which is a `sfc_POINT` class. This means our data is now fully "spatial" in the sense that it can easily be exported to another format, like a `.shp` file, or converted to a different CRS.
+
+We can always view the full projection info for a CRS by using the `st_crs` function, or check our current data frame. Notice if you run `st_crs` on the original `df`, the definitions are `NA` or empty.
+
+```{r crs, eval=TRUE, echo=TRUE}
+st_crs(32610) ## more detailed def (UTMs)
+st_crs(df.SP) 
+```
+
+#### Transform or Re-Project  
+
+Ok! The final few steps and we're there. Now that our data is in a "*sf*" class, it's fairly straightforward to switch our projection and append the data to our dataframe. Here we convert to UTMs from lat-long, add those columns, and then convert back to lat-long and add those columns.
+
+```{r transform_add_cols}
+# transform to UTM
+df.SP<-st_transform(x = df.SP, crs = 32610)
+
+# get coordinates and add back to dataframe
+df.SP$utm_E<-st_coordinates(df.SP)[,1] # get coordinates
+df.SP$utm_N<-st_coordinates(df.SP)[,2] # get coordinates
+
+# now switch back to lat-long
+df.SP<-st_transform(x = df.SP, crs = 4326)
+
+# add coordinates to dataframe
+df.SP$lon<-st_coordinates(df.SP)[,1] # get coordinates
+df.SP$lat<-st_coordinates(df.SP)[,2] # get coordinates
+
+```
+
+At this point we now have a nice dataframe with two different sets of coordinates for any/all to use. We could write this data to a csv, or to a shapefile, or to whatever format we'd like really. If we wanted to remove the `geometry` column and make this data non-spatial again, we can use the `st_set_geometry()` function.
+
+```{r convert_to_df, echo=TRUE, eval=FALSE}
+# coerce back to data.frame:
+df.SP<-st_set_geometry(df.SP, NULL)
+
+```
+
+#### Map It
+
+Let's make a quick leaflet map and show these data off, just because it seems grim to have a spatial blog without a map.
+
+```{r leaflet, echo=T, warning=F, message=F}
+library(leaflet)
+
+leaflet() %>%
+  addTiles() %>% 
+  addProviderTiles("Esri.WorldTopoMap", group = "Topo") %>%
+  addProviderTiles("Esri.WorldImagery", group = "ESRI Aerial") %>%
+  addCircleMarkers(data=df.SP, group="Hot Springs", radius = 4, opacity=1, fill = "darkblue",stroke=TRUE,
+                   fillOpacity = 0.75, weight=2, fillColor = "yellow",
+                   popup = paste0("Spring Name: ", df.SP$SpringName,
+                                  "<br> Temp_F: ", df.SP$Temp_F,
+                                  "<br> Area: ", df.SP$AREA)) %>%
+  addLayersControl(
+    baseGroups = c("Topo","ESRI Aerial"),
+    overlayGroups = c("Hot SPrings"),
+    options = layersControlOptions(collapsed = T))
+
+```
+
+Pretty cool!
+  
+  
