@@ -25,11 +25,10 @@ navbar-links:
   About Me:
     - Quick Bio: "aboutme"
     - CV: "cv"
-    - AggieBrickyard: "https://aggiebrickyard.github.io/"
     - Archives: "tags"
   Research:
     - Rana boylii: "RABO_sites_flexdash.html"
-    - RADSeq/RAPTURE Pipeline: "https://ryanpeek-github-io/radseq"
+    - RADSeq/RAPTURE Pipeline: "https://ryanpeek.github.io/radseq"
     - Sierra Rivers Monitoring: "https://watershed.ucdavis.edu/project/long-term-river-monitoring"
     - River Time-Lapse: "https://vimeo.com/164154774"
     - Meadows: "http://meadows.ucdavis.edu"
@@ -38,6 +37,7 @@ navbar-links:
     - Humboldt NWR Climate: "http://shiny.cws.ucdavis.edu/shiny/rapeek/Humboldt_GCM/"
     - Tadpole Gosner Staging: "http://shiny.cws.ucdavis.edu/shiny/rapeek/Gosner_photos/"
   Resources:
+    - AggieBrickyard: "https://aggiebrickyard.github.io/"
     - Data Carpentry: "http://www.datacarpentry.org/"
     - Davis R Users Group: "https://d-rug.github.io/"
     - Beautiful Jekyll: "http://deanattali.com/beautiful-jekyll/"
