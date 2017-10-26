@@ -12,7 +12,7 @@ This is a newer addition to the site, but I'm hoping to post/convert most of my 
 
 
  - **2017-10-25 CA SFS/CABW** *(.html)*
-    - #### [Dammed Rivers: Genetic Signatures of Altered Flow Regimes in a River Breeding Frog (*Rana boylii*)](../slides/20171025/2017_CA_SFS.html)
+    - #### [Dammed Rivers: Genetic Signatures of Altered Flow Regimes in a River Breeding Frog (*Rana boylii*)](../slides/20171025/2017_CA_SFS_no_notes.html)
 
 
 
