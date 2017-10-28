@@ -122,13 +122,6 @@ $(document).ready(function () {
 
 
 
-<div class="fluid-row" id="header">
-
-
-
-
-</div>
-
 
 <div id="convertingadding-spatial-coordinates" class="section level2">
 <h2>Converting/Adding Spatial Coordinates</h2>
@@ -156,14 +149,14 @@ $(document).ready(function () {
 <h4>Grab Some Hotsprings Data for CA</h4>
 <p>I’m going to use a table of hotsprings with <code>LAT</code> and <code>LONG</code> columns. Let’s say we want to convert these data into UTMs, or add a set of UTM columns so our colleague can use the data for a comparison. First let’s scrape the data (I’m sure there’s a prettier way but this just works):</p>
 <pre class="r"><code>url &lt;- &quot;http://www.hotspringsdirectory.com/usa/ca/gps-usa-ca.html&quot;
-df &lt;- htmltab(url, which=1, header = 1, 
+df &lt;- htmltab(url, which=1, header = 1,
               colNames = c(&quot;STATE&quot;,&quot;LAT&quot;,&quot;LONG&quot;,&quot;SpringName&quot;,&quot;Temp_F&quot;, &quot;Temp_C&quot;, &quot;AREA&quot;, &quot;USGS_quad&quot;) ) # get the data
 
 # convert columns to numeric:
 sapply(df, class)</code></pre>
-<pre><code>##       STATE         LAT        LONG  SpringName      Temp_F      Temp_C 
-## &quot;character&quot; &quot;character&quot; &quot;character&quot; &quot;character&quot; &quot;character&quot; &quot;character&quot; 
-##        AREA   USGS_quad 
+<pre><code>##       STATE         LAT        LONG  SpringName      Temp_F      Temp_C
+## &quot;character&quot; &quot;character&quot; &quot;character&quot; &quot;character&quot; &quot;character&quot; &quot;character&quot;
+##        AREA   USGS_quad
 ## &quot;character&quot; &quot;character&quot;</code></pre>
 <pre class="r"><code>cols.num&lt;- c(&quot;LAT&quot;,&quot;LONG&quot;, &quot;Temp_F&quot;, &quot;Temp_C&quot;)
 df[cols.num]&lt;-sapply(df[cols.num], as.numeric) # some NA's where there are no temperatures available</code></pre>
@@ -205,19 +198,19 @@ df.SP &lt;- st_as_sf(df, coords = c(&quot;LONG&quot;, &quot;LAT&quot;), crs = 43
 <pre class="r"><code>st_crs(32610) ## more detailed def (UTMs)</code></pre>
 <pre><code>## $epsg
 ## [1] 32610
-## 
+##
 ## $proj4string
 ## [1] &quot;+proj=utm +zone=10 +datum=WGS84 +units=m +no_defs&quot;
-## 
+##
 ## attr(,&quot;class&quot;)
 ## [1] &quot;crs&quot;</code></pre>
 <pre class="r"><code>st_crs(df.SP) </code></pre>
 <pre><code>## $epsg
 ## [1] 4326
-## 
+##
 ## $proj4string
 ## [1] &quot;+proj=longlat +datum=WGS84 +no_defs&quot;
-## 
+##
 ## attr(,&quot;class&quot;)
 ## [1] &quot;crs&quot;</code></pre>
 </div>
@@ -247,7 +240,7 @@ df.SP&lt;-st_set_geometry(df.SP, NULL)</code></pre>
 <pre class="r"><code>library(leaflet)
 
 leaflet() %&gt;%
-  addTiles() %&gt;% 
+  addTiles() %&gt;%
   addProviderTiles(&quot;Esri.WorldTopoMap&quot;, group = &quot;Topo&quot;) %&gt;%
   addProviderTiles(&quot;Esri.WorldImagery&quot;, group = &quot;ESRI Aerial&quot;) %&gt;%
   addCircleMarkers(data=df.SP, group=&quot;Hot Springs&quot;, radius = 4, opacity=1, fill = &quot;darkblue&quot;,stroke=TRUE,
