@@ -314,7 +314,7 @@ To use these, we:
  - add the actual value in the grid, 
  - add a title.
 
-```{r calc_dist_matrix, eval=T, echo=F}
+```{r calc_dist_matrix, eval=T, echo=T}
 
 library(Imap)
 
