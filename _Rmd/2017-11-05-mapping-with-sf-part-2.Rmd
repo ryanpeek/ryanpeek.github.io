@@ -2,8 +2,9 @@
 categories: blog
 comments: true
 use-site-title: false
-layout: minimal
-tags: [R, maps]
+date: "2017-11-05"
+layout: post
+tags: [R, maps, GIS]
 ---
 
 
@@ -13,7 +14,7 @@ knitr::opts_knit$set(root.dir = normalizePath("../"))
 
 ```
 
-# Part II: Download NHD Flowline Data and Use `sf` Functions
+## Part II: Download NHD Flowline Data and Use `sf` Functions
 
   So last post ([Part I](https://ryanpeek.github.io/2017-10-24-mapping-with-sf-part-1/)), I showed how to calculate distance matrices and find out the nearest points between two sets of point data.
 Now that we know how to identify the nearest neighbor for one set of points to another, let's look at how we can grab some line data (in this blogpost, I'm using river networks) and crop it based on our point data. I'll show how to go download a few different sets of river line data, how to buffer, and how to crop/intersect data based on other polygons or point data. The next post (Part III) will show how you can snap the spatial point data to the river network (line) data using the `riverdist` package, and calculate the river distance between sites (so along the river network).
@@ -33,8 +34,8 @@ suppressMessages({
   library(sf); # spatial simple features
   library(USAboundaries); # state/county data
   library(Imap); # nice mapping/color functions
-  library(geoknife); # USGS tool set
-  library(dataRetrieval); # USGS tool set
+  #library(geoknife); # USGS tool set (Next post)
+  #library(dataRetrieval); # USGS tool set (next post)
   library(httr) # scraping webdata (to download flowlines)
 })
 ```
@@ -59,12 +60,12 @@ There are many components of the NHD dataset, but thankfully folks over at [Offi
 
 ### Load the NHDFlowline Function
 
-First we are going to load a few libraries and functions which are required to download the NHD data. This function is from the blogs linked above, and requires specification of `streamorder` and `mapRange`. Note the default downloads stream layers with a `stream order` = 1, so the finest scale possible (headwater streams are 1, and larger rivers are usually > 4--5). I'm not going to go into much detail on this function, but there's a nice tutorial on using the `geoknife` package [here](http://usgs-r.github.io/geoknife/)
- 
+First we are going to load a few libraries and functions which are required to download the NHD data. This function is from the blogs linked above, and requires specification of `streamorder` and `mapRange`. Note the default downloads stream layers with a `stream order` = 1, so the finest scale possible (headwater streams are 1, and larger rivers are usually > 4--5). 
+
+I'm not going to go into much detail on this function, but the original function comes from a gist by Laura DeCicco (see [here](https://gist.github.com/ldecicco-USGS/56262f3809f0807cb523d7105cb790a9)), and I modified it slightly to work with the `sf` package.
+
 ```{r getNHD_flowlines_function, eval=T, echo=T}
 
-library(geoknife)
-library(dataRetrieval)
 library(httr)
 
 get_flowlines <- function(streamorder, mapRange){
@@ -99,8 +100,7 @@ get_flowlines <- function(streamorder, mapRange){
   unzip(destination, exdir = filePath)
   
   flowLines <- st_read(filePath, layer = 'nhdflowline_network')
-  #flowLines = readOGR(filePath, layer='nhdflowline_network')
-  
+
   return(flowLines)
 }
 
