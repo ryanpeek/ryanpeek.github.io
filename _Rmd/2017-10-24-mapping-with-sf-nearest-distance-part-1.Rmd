@@ -179,7 +179,7 @@ Great, only **532** gages now...that should be enough to cover our CDEC temperat
 
 So now we have two layers to work with, let's make a quick leaflet map so we can get a sense of what we have. The blue dots are USGS data, and orange circles are the CDEC temperature data.
 
-```{r leaflet_map, eval=T, echo=F}
+```{r leaflet_map, eval=T, echo=T}
 
 #quick plot:
 suppressPackageStartupMessages({
