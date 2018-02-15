@@ -15,7 +15,8 @@ This is a newer addition to the site, but I'm hoping to post/convert most of my 
     - #### [Dammed Rivers: Genetic Signatures of Altered Flow Regimes in a River Breeding Frog (*Rana boylii*)](../slides/20171025/2017_CA_SFS_no_notes.html)
  - **2018-01-11 APTF** *(.html)*
     - #### [River Regulation Decreases Genetic Health of a Sensitive Frog](../slides/20180111/2018_APTF_no_notes.html)
-
+ - **2018-02-15 CDFW** *(.html)*
+    - #### Conservation Ecology of *Rana boylii* (with Sarah Kupfberberg) in 5 parts: [P5](../slides/20180215/2018_CDFW.html)
 
 <br>
 <br>
