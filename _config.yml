@@ -38,6 +38,7 @@ navbar-links:
     - Humboldt NWR Climate: "http://shiny.cws.ucdavis.edu/shiny/rapeek/Humboldt_GCM/"
     - Tadpole Gosner Staging: "http://shiny.cws.ucdavis.edu/shiny/rapeek/Gosner_photos/"
   Resources:
+    - Mapping in R: "https://ryanpeek.github.io/2018_river-rally-Rmapping-workshop/index.html"
     - AggieBrickyard: "https://aggiebrickyard.github.io/"
     - Data Carpentry: "http://www.datacarpentry.org/"
     - Davis R Users Group: "https://d-rug.github.io/"
