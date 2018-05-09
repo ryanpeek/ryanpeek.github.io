@@ -17,6 +17,8 @@ This is a newer addition to the site, but I'm hoping to post/convert most of my 
     - #### [River Regulation Decreases Genetic Health of a Sensitive Frog](../slides/20180111/2018_APTF_no_notes.html)
  - **2018-02-15 CDFW** *(.html)*
     - #### Conservation Ecology of *Rana boylii* (with Sarah Kupfberberg) in 5 parts: [P5](../slides/20180215/2018_CDFW.html)
+ - **2018-05-01 River Rally** *(website)*
+    - #### [Using R for Geospatial Mapping and Dynamic Visualization](https://ryanpeek.github.io/2018_river-rally-Rmapping-workshop/index.html)
 
 <br>
 <br>
