@@ -20,7 +20,7 @@ This is a newer addition to the site, but I'm hoping to post/convert most of my 
  - **2018-05-01 River Rally** *(website)*
     - #### [Using R for Geospatial Mapping and Dynamic Visualization](https://ryanpeek.github.io/2018_river-rally-Rmapping-workshop/index.html)
  - **2018-05-31 TWS-_Rana boylii_** *(.pdf)*
-    - #### [Range-wide Genetics of the Foothill Yellow-Legged Frog](../slides/20180531/2018_tws_rangewide.pdf)
+    - #### [Range-wide Genetics of the Foothill Yellow-Legged Frog](../slides/Peek_rangewide_genetics.pdf)
  - **2018-06-01 TWS-_Rana boylii_** *(.pdf)*
     - #### [Flow regulation associated with decreased genetic health of *Rana boylii*](../slides/20180531/2018_tws_rabo_reg.html)
 
