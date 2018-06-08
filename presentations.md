@@ -23,6 +23,8 @@ This is a newer addition to the site, but I'm hoping to post/convert most of my 
     - #### [Range-wide Genetics of the Foothill Yellow-Legged Frog](../slides/Peek_rangewide_genetics_reduced.pdf)
  - **2018-06-01 TWS** __*Rana boylii*__ *(.html)*
     - #### [Flow regulation associated with decreased genetic health of *Rana boylii*](../slides/20180601/2018_tws_rabo_reg.html)
+ - **2018-06-02 TWS** __*Rana boylii*__ *(.pdf)*
+    - #### [*Rana boylii* Survey Methods](../slides/SurveyMethods_final_02June02.pdf)
 
 <br>
 <br>
