@@ -37,10 +37,11 @@ navbar-links:
     - Humboldt NWR Climate: "http://shiny.cws.ucdavis.edu/shiny/rapeek/Humboldt_GCM/"
     - Tadpole Gosner Staging: "http://shiny.cws.ucdavis.edu/shiny/rapeek/Gosner_photos/"
   Resources:
+    - R-DAVIS: "https://gge-ucd.github.io/R-DAVIS/"
     - Mapping in R: "https://ryanpeek.github.io/2018_river-rally-Rmapping-workshop/index.html"
+    - Davis R Users Group: "https://d-rug.github.io/"
     - AggieBrickyard: "https://aggiebrickyard.github.io/"
     - Data Carpentry: "http://www.datacarpentry.org/"
-    - Davis R Users Group: "https://d-rug.github.io/"
     - Beautiful Jekyll: "http://deanattali.com/beautiful-jekyll/"
 
 # Image to show in the navigation bar - image must be a square (width = height)
