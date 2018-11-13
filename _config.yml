@@ -1,12 +1,6 @@
 # --- General options --- #
-# port: 4000
-# host: 127.0.0.1
 # To run in jekyll: bundle exec jekyll serve
 # and go to http://127.0.0.1:4000/
-
-# If you are building a GitHub project page:
-#url: "http://username.github.io/projectname"
-#baseurl: "/projectname"
 
 # Name of website
 title: Rivers & Ranids
@@ -16,7 +10,6 @@ bigimg: "/img/20150912_shallnotpass.jpg"
 url: "http://ryanpeek.github.io"
 baseurl: ""
 description: A blog about Rivers (and Frogs)!
-
 
 # --- Navigation bar options --- #
 
@@ -55,13 +48,11 @@ avatar: "/img/P1080821.JPG"
 author:
   name: Ryan
   email: "rapeek @ ucdavis.edu"
-  facebook: yourname  # eg. daattali
+  #facebook: yourname  # eg. daattali
   github: ryanpeek
   twitter: riverpeek
-  linkedin: yourlink  # eg. "pub/dean-attali/8/946/143"
-  stackoverflow: yourlink  # eg. "3943160/daattali"
-
-
+  #linkedin: yourlink  # eg. "pub/dean-attali/8/946/143"
+  #stackoverflow: yourlink  # eg. "3943160/daattali"
 
 # Select which links to show in the footer
 footer-links-active:
@@ -70,8 +61,8 @@ footer-links-active:
   email: true
   twitter: true
   github: true
-  linkedin: false
-  stackoverflow: false
+  #linkedin: false
+  #stackoverflow: false
 
 # How to display the link to the website in the footer
 # Remove this if you don't want a link in the footer
@@ -85,6 +76,23 @@ disqus: "ryanpeek-github-io"
 # Fill in your Google Analytics ID to track your website using GA
 google_analytics: "UA-87260839-1"
 # old through gmail "UA-80552998-1"
+
+# Matomo (aka Piwik) Web statistics
+# Uncomment the following section to enable Matomo. The opt-out parameter controls
+# whether or not you want to allow users to opt out of tracking.
+
+#matomo:
+#  site_id: "9"
+#  uri: "demo.wiki.pro"
+#  opt-out: true
+
+# Excerpt Word Length
+# Truncates the excerpt to the specified number of words on the index page
+excerpt_length: 50
+
+# Character used to separate site title and description in HTML document title
+# and RSS feed title
+title-separator: "-"
 
 # --- Don't need to touch anything below here (but you can if you want) --- #
 
@@ -107,12 +115,16 @@ defaults:
     values:
       layout: "post"
       comments: true  # add comments to all blog posts
+      social-share: true # add social media sharing buttons to all blog posts
   -
     scope:
       path: "" # all files
     values:
       layout: "page"
       show-avatar: true
+
+# Use tags index page and make tags on each post clickable
+link-tags: true
 
 # Exclude these files from production site
 exclude:
@@ -122,7 +134,8 @@ exclude:
   - README.md
   - CNAME
   - Vagrantfile
-  - .DS_Store
+  - Dockerfile
+  - CHANGELOG.md
 
 # prose.io config
 prose:
@@ -163,14 +176,22 @@ prose:
           help: "Enter date of post."
           placeholder: "yyyy-mm-dd"
           alterable: true
+      - name: "image"
+        field:
+          element: "text"
+          label: "Image"
+          help: "Add a thumbnail image to your post."
+          placeholder: "Thumbnail"
+          alterable: true
       - name: "published"
         field:
           element: "checkbox"
           label: "Publish"
           help: "Check to publish post, uncheck to hide."
 
-gems:
+plugins:
   - jekyll-paginate
+  - jekyll-sitemap
 
 # Beautiful Jekyll / Dean Attali
 # 2fc73a3a967e97599c9763d05e564189
