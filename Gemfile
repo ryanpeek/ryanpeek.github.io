@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'execjs'
-gem 'therubyracer'
-gem 'github-pages'
+gem "github-pages", '163', group: :jekyll_plugins
+
 gem 'jekyll-paginate'
-gem 'json', github: 'flori/json', branch: 'v1.8'
