@@ -1,12 +1,11 @@
 # Jekyll
 _site/
 .sass-cache/
-.jekyll-metadata
 
 # R Specific
 .DS_Store
 .Rproj.user
-ryanpeek.github.io.Rproj
+Thumbs.db
 .Rproj
 .Rhistory
 .RData
