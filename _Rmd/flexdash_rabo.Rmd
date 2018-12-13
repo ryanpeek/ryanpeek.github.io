@@ -187,6 +187,8 @@ knitr::include_graphics(paste0(here(),"/img/maps_all_rabo_filt10_1_100k_revrange
 
 ### Peek 2018 Results 
 
+<br>
+
  - 6 distinct groups were identified based on samples from Peek 2018.
  - These groups largely coincide with the McCartney-Melstad et al. 2018 clades, with a few exceptions:
     - A unique group consisting of populations in the Feather River basin was identified. These samples were consistently more different from any other clade.
