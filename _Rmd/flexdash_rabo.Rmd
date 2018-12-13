@@ -52,9 +52,6 @@ knitr::include_graphics(paste0(here(),"/img/rabo_A_P1060730.jpg"))
  1. Can we quantify this genetic signature for specific hydrologic flow regimes?
  
 
-
-
-
 ### Historical range for *Rana boylii* was broad, extending from Southern California all the way into Oregon, and from the coast to the Sierra Nevada. {data-commentary-width=400}
 
 ```{r, out.width = '100%', out.height= '100%', echo=F, warning=F, message=F}
@@ -138,60 +135,124 @@ knitr::include_graphics(paste0(here(),"/img/rapture_slides_1.jpg"))
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/PfihhGqB7Vc?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-Rivers {data-icon="fa-tint"}
+Regulation Research {.storyboard data-icon="fa-tint"}
 =========================================
 
-Column {data-width=800}
------------------------------------------------------------------------
+### Sites were selected across a gradient of regulation intensity in the American, Bear, and Yuba watersheds.  {data-commentary-width=400}
 
-### River Stage on NFA
-
-```{r nfa}
-# load data
-load(paste0(here(),"/data/2011-2015_solinst_mainstem_hourly_compensated.rda"))
-nfa<- hrly2 %>% 
-  filter(site=="NFA" & WY==2015) %>%
-  select(Datetime, Level, wyd, Temperature)
-(nfa2 <- ggplot() +
-    geom_line(data=nfa, aes(x=Datetime, y=Level, color=Temperature)) + theme_bw() +
-    scale_color_viridis("Water Temperature (C)",breaks=c(seq(0,30,3)), limits=c(0,30)) + ylab("Stage (m)") +
-    theme(legend.spacing = unit(0.1, "in"), legend.direction = "horizontal",
-          legend.justification = c("right", "top"),legend.box.just = "right",
-          legend.position = c(.95, .95))+
-    guides(color = guide_colourbar(title.position ="top", barheight = 0.75, barwidth = 12)))
-
-# nfa3 <- ggplot() +
-#     geom_line(data=nfa, aes(x=Datetime, y=Level, color=Temperature)) + theme_bw() +
-#     scale_color_viridis("Water Temperature (C)",breaks=c(seq(0,30,3)), limits=c(0,30)) + ylab("Stage (m)")
-# ggplotly(nfa3)
-
+```{r, out.width = '100%'}
+knitr::include_graphics(paste0(here(),"/img/fig_01_map_regtype_v3_resize_1-5c.png"))
 ```
 
-### River Stage on MFA
+### A signature of reduced population connectivity and diversity loss was strongly associated with regulation intensity.  {data-commentary-width=400}
 
-```{r mfa}
-# load data
-load(paste0(here(),"/data/2011-2015_solinst_mainstem_hourly_compensated.rda"))
-mfa<- hrly2 %>% 
-  filter(site=="MFA" & WY==2015) %>%
-  select(Datetime, Level, wyd)
-mfa2 <- ggplot() + geom_line(data=mfa, aes(x=Datetime, y=Level), color="gray40") +
-  geom_point(data=mfa, aes(x=Datetime, y=Level, color=Level),
-             pch=21, fill="gray", alpha=0.7) + theme_bw() + ylab("Stage (m)") + 
-  scale_color_viridis()
-ggplotly(mfa2)
-
+```{r, out.width = '100%'}
+knitr::include_graphics(paste0(here(),"/img/fig_02_pca_combined_v2.png"))
 ```
 
-Research {.storyboard data-icon="fa-map"}
+***
+
+#### PCA of SNPs
+
+ - The unregulated NFA shows very little genetic population structure, with a pattern indicating the population is largely mixed and/or connected.
+ - Compared to the MFA, which shows a strong division between tributary sites in the hydropeaking reach vs. sites upstream of the hydropeaking reach (in bypass or unregulated locations).
+ 
+### Elevated F~ST~ values (a metric of genetic isolation/connectivity) in *R. boylii* increased along a gradient of regulation intensity.
+
+```{r, out.width = '100%'}
+knitr::include_graphics(paste0(here(),"/img/fig_04_fst_vs_dist_by_flowtype_mfa_nfmfa_resize.png"))
+```
+
+***
+
+#### F~ST~ shows elevated patterns of genetic diversity loss
+
+ - Regulation type was shown to be more important in explaining F~ST~ than geographic distance (or river distance).
+ - The higher F~ST~ values observed in populations in regulated rivers indicates more limited connectivity and divergence or loss of genetic variation.
+ - The figure shows the mean river distance and F~ST~ distance for each site (so the mean of that site when measured against every other site within the river basin, cross watershed distances were not compared).
+
+
+Maps {data-icon="fa-map"}
 =========================================
+
+## Maps {.tabset}
+
+*Rana boylii* can be visualized by genetic clade, or "group" based on Peek 2018 and McCartney-Melstad et al. 2018.
+
+### Combined Samples 
+
+```{r, out.width = '100%'}
+knitr::include_graphics(paste0(here(),"/img/maps_all_rabo_filt10_1_100k_revrange_localities_annotated_v2.png"))
+```
+
+### Peek 2018 Results 
+
+ - 6 distinct groups were identified based on samples from Peek 2018.
+ - These groups largely coincide with the McCartney-Melstad et al. 2018 clades, with a few exceptions:
+    - A unique group consisting of populations in the Feather River basin was identified. These samples were consistently more different from any other clade.
+    - The **S. Sierra** clade was expanded north to the SF American River, samples from this area clustered with the Southern Sierra populations.
+    
+
+## Rangewide Clades
+
+```{r, out.width = '100%', out.height= '100%', echo=F, warning=F, message=F}
+
+load(paste0(here(), "/data/fig_1_rangewide_sites_maps.rda"))
+load(paste0(here(), "/data/rabo_clades_annot_sf.rda"))
+
+# fig.width=10, fig.height=6.5}
+suppressPackageStartupMessages({
+  #library(leaflet);
+  library(tidyverse);
+  library(sf);
+  #library(mapview);
+  library(ggrepel);
+  library(ggspatial)
+})  
+
+# ggplot() + 
+#   #annotation_map_tile(zoom = 3) + 
+#   geom_sf(data=bgSTs, fill="gray90", col="gray50", lty=1.2) +
+#   geom_sf(data=CA, fill="gray20", alpha=0.3) + 
+#   geom_sf(data=counties, col="gray50", alpha=0.9) + ylab("") + xlab("")+
+#   geom_sf(data=rb_range_simple, fill="orange", alpha=0.5)+
+#   geom_sf(data=annot_sf, col="gray50", fill="black", size=1.5, pch=21, show.legend = 'point') +
+#   geom_text_repel(data=annot_sf, aes(x = lon, y=lat, label=localityID), segment.size = 0.2, size=2) +
+#   coord_sf(xlim = c(-125,-114), ylim=c(31,46))+
+#   # spatial-aware automagic scale bar
+#   annotation_scale(location = "br",style = "ticks") +
+#   # spatial-aware automagic north arrow
+#   annotation_north_arrow(width = unit(.3,"in"), pad_y = unit(.3, "in"),location = "br", which_north = "true")
+mapOverlays <- c("Esri.WorldShadedRelief","Esri.WorldTopoMap",
+                 "Esri.WorldImagery","OpenTopoMap",
+                 "CartoDB.Positron","OpenStreetMap")  
+
+# make a quick mapview map
+m1 <- mapview(counties, alpha=0.2, alpha.regions=0.2,
+              col.regions=NA, legend=F, map.types=mapOverlays) 
+
+m2 <- m1 + mapview(annot_sf, map.types=mapOverlays,
+        layer.name="R. boylii Groups",zcol="admix_groups") 
+
+m2 %>% addMouseCoordinates() %>% 
+  addLogo(paste0(here(),"/img/fylfrog_icon_resize.png"), src=c("local"),
+          position = "bottomleft",
+          offset.x = 5,
+          offset.y = 40,
+          width = 60,
+          height = 50)
+
+
+```
 
 
 Photos {data-icon="fa-picture-o"}
 =========================================
 
-Column {data-width=700}
+Column {data-width=600}
 -----------------------------------------------------------------------
+
+<br>
 
 #### **Rivers have a Story to Tell**
 
@@ -202,11 +263,11 @@ knitr::include_graphics(paste0(here(),"/img/indian_ck.JPG"))
 ```
 
 
-Column {data-width=300}
+Column {data-width=400}
 -----------------------------------------------------------------------
 
 ###
 
-```{r out.height= '50%'}
+```{r out.height= '60%'}
 knitr::include_graphics(paste0(here(),"/img/IMG_9098.JPG"))
 ```
