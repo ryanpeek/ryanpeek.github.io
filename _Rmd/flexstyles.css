@@ -1,0 +1,10 @@
+.navbar {
+  background-color: #00688B;
+}
+
+.navbar-nav li a:hover, .navbar-nav > .active > a {
+color: #fff !important;
+
+background-color:#009ACD !important;
+background-image: none !important;
+}

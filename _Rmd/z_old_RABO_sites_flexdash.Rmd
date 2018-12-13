@@ -1,0 +1,340 @@
+---
+title: "Rana boylii PhD Research"
+date: '`r format(Sys.time(), "%Y-%b")`'
+output: 
+  flexdashboard::flex_dashboard:
+    theme: journal
+    social: ["twitter", "github"]
+    source: embed
+    orientation: rows
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+knitr::opts_knit$set(root.dir = normalizePath("../"))
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+```
+
+# Objectives {data-icon="fa-info-circle"}
+
+##  Overview {.sidebar}
+
+### Overview
+
+<sub>As freshwater systems and biota are rapidly declining globally; conservation efforts will require assessment of the adaptive capacity of populations to rapid environmental change. Small populations with limited genetic diversity may have reduced adaptive potential and difficulty responding to future environmental change. Identifying these populations is crucial for effective conservation prioritization and management. </sub>
+
+Row {data-height=350}
+-----------------------------------------------------------------------
+
+#### Background
+
+*Rana boylii* provide a unique link with hydroclimatic change as their breeding phenology is tightly coupled with river hydrology. They have evolved strong breeding associations with changes in flow associated with rain or snowmelt cues in the spring. As one of the only obligate stream-breeding frogs in western North America, the foothill yellow-legged frog (*Rana boylii* Baird 1854) historically occurred in streams and rivers from Oregon to northern Baja California west of the Sierra-Cascade crest across a range of elevations from sea level to ~1400 m. As part of my PhD, I am assessing *Rana boylii* at multiple genetic scales using a RADSeq approach (SNPs). Use the tabs above to view a [Map] and data summary in the [Data & Citations] pages. For my dissertation, I will focus on three main objectives:
+
+>  1. _Improve conservation strategies for *R. boylii* by characterizing range-wide genetic structure, identifying “hotspots” of genetic significance, and potential bottlenecks_
+>  2. _Determine the effect of river regulation on contemporary effective population sizes and genetic fragmentation_
+
+>  3. _Determine the strength and timing of population declines (genetic bottlenecks) as a way to identify key habitat degradation events_
+
+# Map {data-icon="fa-map"}
+
+## Mapping {.sidebar}
+
+### Spatial Data
+
+Multiple data sets exist with tissue/swab samples for *R. boylii*, but all have been done at different times, spatial scales, and with different methods and objectives.  This map will hopefully provide a common place for spatial *R. boylii* data to be displayed.
+
+Row
+-------------------------------------
+
+#### Map of *Rana boylii* Sampling Sites
+
+```{r echo=F, warning=F, message=F, fig.width=10, fig.height=6.5}
+library(leaflet)
+library(tidyverse)
+library(sf)
+
+# Rana boylii range
+poly<- st_read("data/shps/RABO_Potential_Range_CAandOR.shp", quiet=T)
+poly<- st_transform(poly, crs=4326)
+
+# All RABO Points
+#rbpts<- st_read("data/shps/RABO_All_Records_thru_2010_full_v4.shp", quiet = T)
+#rbpts <- st_transform(rbpts, crs=4326)
+
+# Hydrology
+h8 <- st_read("data/shps/hydrology/HUC8_named_westcoast.shp", quiet=T)
+
+# this is all conversions to make a nice named shapefile of H8's for OR and CA:
+
+# h8_OR <- st_read("data/shps/hydrology/h8_OR_named.shp", quiet = T, stringsAsFactors = F) 
+# h8_OR <- st_transform(h8_OR, crs = 4326)
+# h8_CA <- st_read("data/shps/hydrology/wbdhu8_a_ca.shp", quiet = T,stringsAsFactors = F) %>% 
+#   rename(HUC_8=HUC8)
+# h8_CA <- st_transform(h8_CA, crs = 4326)
+# h8_CA <- select(h8_CA, HUC_8:Name,AreaAcres, AreaSqKm) %>% rename(HU_8_NAME=Name)
+
+# h8<- st_read("data/shps/hydrology/HUC_8_WESTCOAST.shp", quiet = T, stringsAsFactors = F) %>% 
+  # select(HUC_8, HU_8_NAME, ACRES)
+# h8 <- st_transform(h8, crs = 4326)
+
+# cool way to merge multiple SHAPES on a given ID
+# h8_named<-list(h8_CA, h8_OR) %>% 
+  # map(~select(data.frame(.x), -geometry)) %>% 
+  # prepend(list(h8)) %>% 
+  # reduce(left_join, by="HUC_8")
+
+# h8_named <- select(h8_named, HUC_8, HU_8_NAME.x, HU_8_NAME.y, AreaAcres, AreaSqKm, SHAPE_Area)
+# h8_named$HU_8_NAME <- ifelse(is.na(h8_named$HU_8_NAME.x), h8_named$HU_8_NAME.y, h8_named$HU_8_NAME.x)
+# h8_named <- select(h8_named, HUC_8, HU_8_NAME, AreaAcres, AreaSqKm, SHAPE_Area)
+# st_write(h8_named, "data/shps/hydrology/HUC8_named_westcoast.shp")
+
+# Glacial Extent
+glacExtent <- st_read("data/shps/glacial_extent_18kaBP/glacial_extent_18kaBP.shp", quiet = T)
+
+# mines
+minesall <- st_read("data/shps/Mines_CA/Mines_CA.shp", quiet = T)
+minepits <- st_read("data/shps/Hydraulic_Mine_Pits_of_California/Hydraulic_Mine_Pits_of_California.shp", quiet=T)
+#dams <- st_read("data/shps/CA_OR_dams.shp")
+
+# frog samples
+frogs<- read_csv("data_output/rapture04_metadata_hucs_nhd_quant.csv")
+
+# need to convert/reproject to global mercator for mapping: EPSG:3857, lat long: 4326
+glacExtent <- st_transform(glacExtent, crs = 4326)
+minesall <- st_transform(minesall, crs=4326)
+minepits <- st_transform(minepits, crs=4326)
+#dams <- st_transform(dams, crs=4326)
+
+#### MAP
+
+MAP<-leaflet() %>%
+  addTiles() %>% 
+  setView(lng = -120.8, lat = 39, zoom = 5) %>%  # set to Auburn/Colfax, zoom 5 for CA 
+  addProviderTiles("Stamen.TopOSMFeatures", group = "OSM Features") %>%
+  addProviderTiles("Esri.WorldTopoMap", group = "Topo") %>%
+  addProviderTiles("Esri.WorldImagery", group = "ESRI Aerial") %>%
+
+  # huc8
+  addPolygons(data=h8, group="HUC8", color="darkblue", weight = 1.3,
+              fillColor = "transparent", label = ~HU_8_NAME) %>% 
+  hideGroup("HUC8") %>%
+  
+  # Historical Range
+  addPolygons(data = poly, group = "RABO HistRange", weight = 4,stroke = TRUE,
+              opacity = 0.3, color = "forestgreen", fillColor= "forestgreen") %>%
+  hideGroup("RABO HistRange") %>%
+
+  # hydraulic mines
+  addPolygons(data=minepits, group="Mine Pits", color="#8B4513", fillColor="#CD661D",
+              stroke=TRUE, weight = 1.7, fillOpacity = 0.65,
+              popup=paste0("Pit Name: ", minepits$Pit_Name, "<br>",
+                           "Data Source: ", minepits$DataSource,"<br>",
+                           "Area (ac): ", minepits$AreaAcres)) %>%
+  # glacial extent 
+  addPolygons(data=glacExtent, group="Glacial Extent 18ka BP", color="darkslategrey",
+              stroke=TRUE, weight = 1.7, fillColor = "darkslategrey",
+              popup=paste0("ICE18k: ", glacExtent$ICE18K_,"<br>",
+                           "ICE18k_ID: ", glacExtent$ICE18K_ID)) %>%
+
+  # all mines
+  addCircleMarkers(data=minesall, group="CA Mines", 
+                   stroke=TRUE, weight=0.3,radius=4,
+                   fillOpacity = 0.7,
+                   fillColor = "orange",
+                   popup=paste0("Site: ", minesall$site_name,"<br>",
+                                "Type: ", minesall$oper_type,
+                                "<br>", "Main Ore: ", minesall$commod1),
+                   clusterOptions = markerClusterOptions(),
+                   clusterId = "minesCluster") %>%
+  hideGroup("CA Mines") %>% 
+  
+  # add freeze cluster option
+  addEasyButton(easyButton(
+    states = list(
+      easyButtonState(
+        stateName="unfrozen-markers",
+        icon="ion-toggle",
+        title="Freeze Clusters",
+        onClick = JS("
+          function(btn, map) {
+            var clusterManager =
+              map.layerManager.getLayer('cluster', 'minesCluster');
+            clusterManager.freezeAtZoom();
+            btn.state('frozen-markers');
+          }")
+      ),
+      easyButtonState(
+        stateName="frozen-markers",
+        icon="ion-toggle-filled",
+        title="UnFreeze Clusters",
+        onClick = JS("
+          function(btn, map) {
+            var clusterManager =
+              map.layerManager.getLayer('cluster', 'minesCluster');
+            clusterManager.unfreeze();
+            btn.state('unfrozen-markers');
+          }")
+      )
+    )
+  )) %>% 
+  
+  # add scale bar
+  addMeasure(position = "topright",
+             primaryLengthUnit = "meters",
+             primaryAreaUnit = "sqmeters",
+             activeColor = "#3D535D",
+             completedColor = "#7D4479") %>% 
+  
+  # set a central zoom button
+  addEasyButton(easyButton(
+    icon="fa-globe", title="Zoom to Level 5",
+    onClick=JS("function(btn, map){ map.setZoom(5); }"))) %>%
+  # 
+  # # all Rb records
+  # addCircleMarkers(data=rbpts, group="RABO Records",
+  #                  popup=paste0("Locality: ", rbpts@data$Locality, "<br> ID= ",
+  #                               rbpts@data$RECORDID,
+  #                               "<br> Year= ", rbpts@data$Year,
+  #                               "<br> Source= ", rbpts@data$Source),
+  #                  radius = ~ifelse(rbpts@data$Year>=2000, 8, 6),
+  #                  fillColor= ~ifelse(rbpts@data$Year>=2000, "darkgreen", "gray"),
+  #                  stroke=TRUE, weight=0.6, fillOpacity= 0.8, color="black") %>%
+  # hideGroup("RABO Records") %>%
+  # 
+  
+  # add RANA samples
+  addCircleMarkers(data=frogs, group="Rana Samples",
+                   lng = ~lon, lat=~lat,opacity = 0.5,
+                   popup=paste0("Locality: ", frogs$Locality, "<br>",
+                                "HUC12: ", frogs$HUC_12, 
+                                "<br>","SampleID: ",frogs$SampleID,
+                                "<br>", "SPP_ID: ",frogs$SPP_ID,
+                                "<br>", "Elev (m): ", frogs$elev_m, "<br>",
+                                "StreamName: ", frogs$GNIS_NAME),
+                   weight=0.6,radius=10, stroke=TRUE,
+                   fillColor = ifelse(frogs$SPP_ID=="RABO" | frogs$SPP_pc1=="RABO", "yellow", "dodgerblue")) %>%
+  hideGroup("Peek Samples") %>% 
+  
+  addLayersControl(
+    baseGroups = c("Topo","ESRI Aerial", "OSM Features"),
+    overlayGroups = c("Rana Samples", "Mine Pits", "CA Mines", 
+                      "RABO HistRange", "HUC8", 
+                      "Glacial Extent 18ka BP"
+                      ),
+    options = layersControlOptions(collapsed = T))
+
+MAP
+
+#saveWidget(widget = m, file="RABO.html", selfcontained = FALSE)
+
+```
+
+# Data & Citations {data-icon="fa-book"}
+
+##  Samples To-Date {.sidebar}
+
+As of `r format(Sys.time(), "%Y-%m")`, I've finished the majority of the areas I wanted to sample in. There are obviously gaps and locations it would be great to have additional samples, but the current dataset can be broken down as follows:
+
+Row {data-height=150}
+-----------------------------------------------------------------------
+
+### Total Samples 
+
+```{r total}
+frogs<- read_csv("data_output/rapture04_metadata_hucs_nhd_quant.csv")
+rbtotal<- as.numeric(frogs %>% count())
+valueBox(rbtotal, icon = "ion-erlenmeyer-flask")
+```
+
+### Total Sites
+
+```{r sites}
+rbsites<- as.numeric(frogs %>% group_by(Locality) %>% n_groups())
+valueBox(rbsites, icon = "ion-waterdrop")
+```
+
+### Total HUC8
+
+```{r H8}
+rh8<- as.numeric(frogs %>% group_by(HUC_8) %>% n_groups())
+valueBox(rh8, icon = "ion-waterdrop")
+```
+
+### Total HUC10
+
+```{r H10}
+rh10<- as.numeric(frogs %>% group_by(HUC_10) %>% n_groups())
+valueBox(rh10, icon = "ion-waterdrop")
+```
+
+### Total HUC12
+
+```{r H12}
+rh12<- as.numeric(frogs %>% group_by(HUC_12) %>% n_groups())
+valueBox(rh12, icon = "ion-waterdrop")
+```
+
+
+Row {data-height=150}
+-----------------------------------------------------------------------
+
+### Tissue Samples 
+
+```{r tissue}
+rbtissue <- frogs %>% filter(!SampleType=="Buccal") %>% count()
+valueBox(rbtissue, icon = "ion-ionic")
+```
+
+### Buccal Swabs
+
+```{r bswabs}
+rb_buccal<- frogs %>% filter(SampleType=="Buccal") %>% count() %>% 
+	as.numeric
+valueBox(rb_buccal, icon = "ion-ios-checkmark")
+```
+
+### RABO Samples 
+
+```{r rabo}
+rabo<-frogs %>% filter(SPP_ID=="RABO" | SPP_pc1=="RABO") %>% count()
+valueBox(rabo, icon = "ion-ios-plus")
+```
+
+### RASI Samples
+
+```{r rasi}
+rasi<-frogs %>% filter(SPP_ID=="RASI" | SPP_pc1=="RASI") %>% count()
+valueBox(rasi, icon = "ion-ios-plus")
+```
+
+### RANA Samples (Multi-Sp.) 
+
+```{r rana}
+rana <- frogs %>% filter(SampleType=="DNA") %>% count()
+valueBox(rana, icon = "ion-ios-circle-filled")
+```
+
+
+
+Row {data-height=350}
+-----------------------------------------------------------------------
+
+#### Table of Data Sources and Citations:  
+
+Data Source     | Data Type     | Samples |
+| :------------- | :------------- | :------------- |
+| UCD Peek  | Tissue/Buccal Swabs  | 335 |
+| HBS/Lind  | Tissue  |  492 |
+| WSU Bedwell | Tissue/Swabs  |  205 |
+| CDFW Mussulman | Buccal Swabs | 173 | 
+
+
+####  
+
+ - Lind, A.J. 2005. Reintroduction of a Declining Amphibian: Determining an Ecologically Feasible Approach for the Foothill Yellow-legged Frog (*Rana boylii*) Through Analysis of Decline Factors, Genetic Structure, and Habitat Associations. Ph.D. Dissertation, University of California, Davis, California, USA, 169 p
+ 
+ - Peek, R. 2010. Landscape Genetics of Foothill Yellow-legged Frogs (*Rana boylii*) in regulated and unregulated rivers: Assessing connectivity and genetic fragmentation. Master’s Thesis, Biology Department. University of San Francisco, CA.  pp. 1-69.
+ 
+ - Yarnell, S.M., R.A. Peek, D.E. Rheinheimer, A.J. Lind and J.H. Viers. 2013. Management of the Spring Snowmelt Recession: An Integrated Analysis of Empirical, Hydrodynamic, and Hydropower Modeling Applications. California Energy Commission, PIER, CEC-500-2011-TBD pp. 63. 
