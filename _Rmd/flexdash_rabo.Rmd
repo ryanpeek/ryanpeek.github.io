@@ -41,9 +41,11 @@ knitr::include_graphics(paste0(here(),"/img/rabo_A_P1060730.jpg"))
 #### **BACKGROUND**
 
  - *Rana boylii* provide a unique link with hydroclimatic change as their breeding phenology is tightly coupled with river hydrology. They have evolved strong breeding associations with changes in flow associated with rain or snowmelt cues in the spring.
- - As one of the only obligate stream-breeding frogs in western North America, the foothill yellow-legged frog (*Rana boylii* Baird 1854) historically occurred in streams and rivers from Oregon to northern Baja California west of the Sierra-Cascade crest across a range of elevations from sea level to ~1400 m.
- - *Rana boylii* have declined over 50% from the species former range (Davidson et al. 2005, Lind 2005). Many existing populations are small.
- - Small populations with limited genetic diversity may have reduced adaptive potential and difficulty responding to future environmental change. Identifying these populations is crucial for effective conservation prioritization and management.
+ - *Rana boylii* have been documented in a wide range of habitats, from small creeks to large rivers
+ - Spawning timing & habitat selection is tied to receding <span style="color:#1E90FF;">flow cues</span> & increasing <span style="color:#FF8C00;">water temperatures</span>
+ - 90% of eggs observed in Sierras were in shallow, sheltered waters (n=147) (Bondi et al. 2013)
+    - **< 0.67 m total depth**
+    - **< 0.15 m/s velocity**
 
 #### **KEY QUESTIONS**
 
@@ -54,14 +56,16 @@ knitr::include_graphics(paste0(here(),"/img/rabo_A_P1060730.jpg"))
 
 ### Historical range for *Rana boylii* was broad, extending from Southern California all the way into Oregon, and from the coast to the Sierra Nevada. {data-commentary-width=400}
 
-```{r, out.width = '100%', out.height= '100%', echo=F, warning=F, message=F}
 
-# fig.width=10, fig.height=6.5}
+```{r m1, out.width = '75%', echo=F, warning=F, message=F}
+
 suppressPackageStartupMessages({
   #library(leaflet);
   library(tidyverse);
   library(sf);
-  library(mapview)
+  library(mapview);
+  library(shiny);
+  library(plotly)
 })  
 
 # Rana boylii range
@@ -69,11 +73,29 @@ load(paste0(here(),"/data/RABO_Potential_Range_CAandOR.rda"))
 
 # All RABO Points
 load(paste0(here(),"/data/RABO_all_records_thru_2010_v4.rda"))
-mapview(rabo_range, col.regions="orange", alpha.regions=0.5) + mapview(rabo_pts, col.regions="yellow")
-  
-  
+
+## MAP
+
+mapOverlays <- c("Esri.WorldShadedRelief","Esri.WorldTopoMap",
+                 "Esri.WorldImagery","OpenTopoMap",
+                 "CartoDB.Positron","OpenStreetMap")  
+
+# make a quick mapview map
+m1 <- mapview(rabo_range, col.regions="orange", layer.name=c("RABO Historical Range"), 
+        homebutton=F, legend=T,
+        alpha.regions=0.5, map.types=mapOverlays)
+
+m1
+
 ```
 
+*** 
+
+#### Historical Range of *R. boylii*
+
+ - As one of the only obligate stream-breeding frogs in western North America, the foothill yellow-legged frog (*Rana boylii* Baird 1854) historically occurred in streams and rivers from Oregon to northern Baja California west of the Sierra-Cascade crest across a range of elevations from sea level to ~1400 m.
+ - *Rana boylii* have declined over 50% from the species former range (Davidson et al. 2005, Lind 2005). Many existing populations are small.
+ - Small populations with limited genetic diversity may have reduced adaptive potential and difficulty responding to future environmental change. Identifying these populations is crucial for effective conservation prioritization and management.
 
 
 ### Altered flow regimes have affected freshwater species that evolved under natural flow patterns by limiting connectivity, reducing flow cues, and eliminating habitat.
@@ -135,14 +157,15 @@ knitr::include_graphics(paste0(here(),"/img/rapture_slides_1.jpg"))
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/PfihhGqB7Vc?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-Regulation Research {.storyboard data-icon="fa-tint"}
+Flow Regulation Research {.storyboard data-icon="fa-tint"}
 =========================================
 
-### Sites were selected across a gradient of regulation intensity in the American, Bear, and Yuba watersheds.  {data-commentary-width=400}
+### As part of my dissertation research, I selected sites across a gradient of regulation intensity in the American, Bear, and Yuba watersheds that still have FYLF.  {data-commentary-width=400}
 
 ```{r, out.width = '100%'}
 knitr::include_graphics(paste0(here(),"/img/fig_01_map_regtype_v3_resize_1-5c.png"))
 ```
+
 
 ### A signature of reduced population connectivity and diversity loss was strongly associated with regulation intensity.  {data-commentary-width=400}
 
@@ -167,9 +190,26 @@ knitr::include_graphics(paste0(here(),"/img/fig_04_fst_vs_dist_by_flowtype_mfa_n
 
 #### F~ST~ shows elevated patterns of genetic diversity loss
 
- - Regulation type was shown to be more important in explaining F~ST~ than geographic distance (or river distance).
- - The higher F~ST~ values observed in populations in regulated rivers indicates more limited connectivity and divergence or loss of genetic variation.
- - The figure shows the mean river distance and F~ST~ distance for each site (so the mean of that site when measured against every other site within the river basin, cross watershed distances were not compared).
+ - Regulation type was shown to be more important in explaining F~ST~ than geographic/river distance.
+ - Individual *R. boylii* can move as much as 10km, but typically remain near the edge of a stream bank (Bourque 2008). We focused on comparisons within watersheds to focus on comparisons of regulation types.
+ - The higher F~ST~ values observed in populations in regulated rivers indicate populations have limited connectivity and greater divergence or loss of genetic variation compared to unregulated rivers.
+ - The figure shows the mean river distance and F~ST~ distance for each site (so the mean of that site when measured against every other site within the river basin, cross watershed distances were not compared)
+ - Focus on the y-axis for the different regulation types, and less on the slope of the regression lines...we know things farther apart are typically less similar, but the mean F~ST~ for each regulation type is significantly different, this gradient of regulation intensity tracks with a gradient of increased F~ST~.
+
+
+***
+
+### River regulation is complicated, with many needs and uses, but more effective management of flows (i.e., using environmental flows) can have an impact.
+
+```{r, out.width = '70%'}
+knitr::include_graphics(paste0(here(),"/img/mfy_oh_dam_P1080073_2016.jpg"))
+```
+
+***
+
+```{r, out.width = '100%'}
+knitr::include_graphics(paste0(here(),"/img/slate_ck_aerial_v2.png"))
+```
 
 
 Maps {data-icon="fa-map"}
@@ -177,9 +217,108 @@ Maps {data-icon="fa-map"}
 
 ## Maps {.tabset}
 
-*Rana boylii* can be visualized by genetic clade, or "group" based on Peek 2018 and McCartney-Melstad et al. 2018.
+*Rana boylii* can be visualized by genetic clade, or "group". McCartney-Melstad et al. 2018 identified 5 major clades (See *Previous Results* tab). Peek 2018 identifies the same 5 plus an additional group.
 
-### Combined Samples 
+<!--
+### Historical Range/Samples
+
+```{r, out.width = '45%', echo=F, warning=F, message=F}
+
+
+suppressPackageStartupMessages({
+  #library(leaflet);
+  library(tidyverse);
+  library(sf);
+  library(mapview)
+})  
+
+# Rana boylii range
+load(paste0(here(),"/data/RABO_Potential_Range_CAandOR.rda"))
+
+# All RABO Points
+load(paste0(here(),"/data/RABO_all_records_thru_2010_v4.rda"))
+
+## MAP
+
+mapOverlays <- c("Esri.WorldShadedRelief","Esri.WorldTopoMap",
+                 "Esri.WorldImagery","OpenTopoMap",
+                 "CartoDB.Positron","OpenStreetMap")  
+
+# make a quick mapview map
+m1 <- mapview(rabo_range, col.regions="orange", layer.name=c("RABO Historical Range"), 
+        homebutton=F, legend=T,
+        alpha.regions=0.5, map.types=mapOverlays) #+ 
+
+m2 <- leaflet() %>% addTiles() %>% 
+  
+  addProviderTiles("Esri.WorldShadedRelief", group = "ESRI Shaded") %>%
+  addProviderTiles("Esri.WorldTopoMap", group = "ESRI Topo") %>%
+  addProviderTiles("Esri.WorldImagery", group = "ESRI Aerial") %>%
+  addProviderTiles("OpenTopoMap", group = "Open Topo") %>% 
+  addProviderTiles("CartoDB.Positron", group = "Carto Positron") %>% 
+  addProviderTiles("Stamen.TopOSMFeatures", group = "OSM Features") %>%
+  
+  # add frogs
+  addCircleMarkers(data = rabo_pts, group="RABO records",
+                   popup=paste0("<b>Locality: </b>", rabo_pts$Locality, "<br><b>ID: </b>",
+                                rabo_pts$RECORDID,
+                                "<br><b>Year: </b> ", rabo_pts$Year,
+                                "<br><b>LandManager/Owner: </b>", rabo_pts$OwnerManag,
+                                "<br><b>Source: </b> ", rabo_pts$Source),
+                   radius = ~ifelse(rabo_pts$Year>=2000, 8, 6),
+                   fillColor= ~ifelse(rabo_pts$Year>=2000, "darkgreen", "gray"),
+                   stroke=TRUE, weight=0.6, fillOpacity= 0.8, color="black",
+                   clusterOptions = markerClusterOptions(),
+                   clusterId = "raboCluster"
+  ) %>% 
+  
+  # add freeze cluster option
+  addEasyButton(easyButton(
+    states = list(
+      easyButtonState(
+        stateName="unfrozen-markers",
+        icon="ion-toggle",
+        title="Freeze Clusters",
+        onClick = JS("
+          function(btn, map) {
+            var clusterManager =
+              map.layerManager.getLayer('cluster', 'raboCluster');
+            clusterManager.freezeAtZoom();
+            btn.state('frozen-markers');
+          }")
+      ),
+      easyButtonState(
+        stateName="frozen-markers",
+        icon="ion-toggle-filled",
+        title="UnFreeze Clusters",
+        onClick = JS("
+          function(btn, map) {
+            var clusterManager =
+              map.layerManager.getLayer('cluster', 'raboCluster');
+            clusterManager.unfreeze();
+            btn.state('unfrozen-markers');
+          }")
+      )
+    )
+  )) %>% 
+  
+  # add scale bar
+  addMeasure(position = "topright",
+             primaryLengthUnit = "meters",
+             primaryAreaUnit = "sqmeters",
+             activeColor = "#3D535D",
+             completedColor = "#7D4479") %>% 
+  # set up layer controls
+  addLayersControl(
+    baseGroups = c("ESRI Topo","ESRI Shaded", "ESRI Aerial", "Carto Positron", "Open Topo", "OSM Features"),
+    overlayGroups = c("RABO records"),
+    options = layersControlOptions(collapsed = T))
+
+(m3 <-sync(m1, m2, ncol = 2))
+
+```
+-->
+### Previous Results 
 
 ```{r, out.width = '100%'}
 knitr::include_graphics(paste0(here(),"/img/maps_all_rabo_filt10_1_100k_revrange_localities_annotated_v2.png"))
@@ -189,16 +328,115 @@ knitr::include_graphics(paste0(here(),"/img/maps_all_rabo_filt10_1_100k_revrange
 
 <br>
 
- - 6 distinct groups were identified based on samples from Peek 2018.
+#### **Six major genetic groups identified throughout the range**
+ - 6 genetically distinct groups were identified based on samples from Peek 2018 and data generated from RADSeq Rapture.
  - These groups largely coincide with the McCartney-Melstad et al. 2018 clades, with a few exceptions:
     - A unique group consisting of populations in the Feather River basin was identified. These samples were consistently more different from any other clade.
-    - The **S. Sierra** clade was expanded north to the SF American River, samples from this area clustered with the Southern Sierra populations.
+    - The **S. Sierra** clade was expanded north to the SF American River, samples from this area clustered with the Southern Sierra populations (see blue and purple dots in map at right).
     
-
 ## Rangewide Clades
 
-```{r, out.width = '100%', out.height= '100%', echo=F, warning=F, message=F}
+<!--
+```{r, echo=F, warning=F, message=F}
 
+
+suppressPackageStartupMessages({
+  #library(leaflet);
+  library(tidyverse);
+  library(sf);
+  library(mapview)
+})  
+
+# Rana boylii range
+load(paste0(here(),"/data/RABO_Potential_Range_CAandOR.rda"))
+
+# All RABO Points
+load(paste0(here(),"/data/RABO_all_records_thru_2010_v4.rda"))
+
+## MAP
+
+mapOverlays <- c("Esri.WorldShadedRelief","Esri.WorldTopoMap",
+                 "Esri.WorldImagery","OpenTopoMap",
+                 "CartoDB.Positron","OpenStreetMap")  
+
+# make a quick mapview map
+m1 <- mapview(rabo_range, col.regions="orange", layer.name=c("RABO Historical Range"), 
+        homebutton=F, legend=T,
+        alpha.regions=0.5, map.types=mapOverlays) #+ 
+
+m2 <- leaflet() %>% addTiles() %>% 
+  
+  addProviderTiles("Esri.WorldShadedRelief", group = "ESRI Shaded") %>%
+  addProviderTiles("Esri.WorldTopoMap", group = "ESRI Topo") %>%
+  addProviderTiles("Esri.WorldImagery", group = "ESRI Aerial") %>%
+  addProviderTiles("OpenTopoMap", group = "Open Topo") %>% 
+  addProviderTiles("CartoDB.Positron", group = "Carto Positron") %>% 
+  addProviderTiles("Stamen.TopOSMFeatures", group = "OSM Features") %>%
+  
+  # add frogs
+  addCircleMarkers(data = rabo_pts, group="RABO records",
+                   popup=paste0("<b>Locality: </b>", rabo_pts$Locality, "<br><b>ID: </b>",
+                                rabo_pts$RECORDID,
+                                "<br><b>Year: </b> ", rabo_pts$Year,
+                                "<br><b>LandManager/Owner: </b>", rabo_pts$OwnerManag,
+                                "<br><b>Source: </b> ", rabo_pts$Source),
+                   radius = ~ifelse(rabo_pts$Year>=2000, 8, 6),
+                   fillColor= ~ifelse(rabo_pts$Year>=2000, "darkgreen", "gray"),
+                   stroke=TRUE, weight=0.6, fillOpacity= 0.8, color="black",
+                   clusterOptions = markerClusterOptions(),
+                   clusterId = "raboCluster"
+  ) %>% 
+  
+  # add freeze cluster option
+  addEasyButton(easyButton(
+    states = list(
+      easyButtonState(
+        stateName="unfrozen-markers",
+        icon="ion-toggle",
+        title="Freeze Clusters",
+        onClick = JS("
+          function(btn, map) {
+            var clusterManager =
+              map.layerManager.getLayer('cluster', 'raboCluster');
+            clusterManager.freezeAtZoom();
+            btn.state('frozen-markers');
+          }")
+      ),
+      easyButtonState(
+        stateName="frozen-markers",
+        icon="ion-toggle-filled",
+        title="UnFreeze Clusters",
+        onClick = JS("
+          function(btn, map) {
+            var clusterManager =
+              map.layerManager.getLayer('cluster', 'raboCluster');
+            clusterManager.unfreeze();
+            btn.state('unfrozen-markers');
+          }")
+      )
+    )
+  )) %>% 
+  
+  # add scale bar
+  addMeasure(position = "topright",
+             primaryLengthUnit = "meters",
+             primaryAreaUnit = "sqmeters",
+             activeColor = "#3D535D",
+             completedColor = "#7D4479") %>% 
+  # set up layer controls
+  addLayersControl(
+    baseGroups = c("ESRI Topo","ESRI Shaded", "ESRI Aerial", "Carto Positron", "Open Topo", "OSM Features"),
+    overlayGroups = c("RABO records"),
+    options = layersControlOptions(collapsed = T))
+
+sync(m1, m2)
+
+
+```
+-->
+
+```{r, out.height='100%', out.width='100%', eval=T, echo=F, warning=F, message=F} 
+# fig.width = 7, fig.height=6,
 load(paste0(here(), "/data/fig_1_rangewide_sites_maps.rda"))
 load(paste0(here(), "/data/rabo_clades_annot_sf.rda"))
 
@@ -207,9 +445,9 @@ suppressPackageStartupMessages({
   #library(leaflet);
   library(tidyverse);
   library(sf);
-  #library(mapview);
-  library(ggrepel);
-  library(ggspatial)
+  library(mapview)
+  #library(ggrepel);
+  #library(ggspatial)
 })  
 
 # ggplot() + 
@@ -225,6 +463,7 @@ suppressPackageStartupMessages({
 #   annotation_scale(location = "br",style = "ticks") +
 #   # spatial-aware automagic north arrow
 #   annotation_north_arrow(width = unit(.3,"in"), pad_y = unit(.3, "in"),location = "br", which_north = "true")
+
 mapOverlays <- c("Esri.WorldShadedRelief","Esri.WorldTopoMap",
                  "Esri.WorldImagery","OpenTopoMap",
                  "CartoDB.Positron","OpenStreetMap")  
@@ -232,20 +471,23 @@ mapOverlays <- c("Esri.WorldShadedRelief","Esri.WorldTopoMap",
 # make a quick mapview map
 m1 <- mapview(counties, alpha=0.2, alpha.regions=0.2,
               col.regions=NA, legend=F, map.types=mapOverlays) 
+m2 <- mapview(shaff_sf, map.types=mapOverlays,
+        layer.name="McCartney-Melstad et al. 2018", col.regions="white")
 
 m2 <- m1 + mapview(annot_sf, map.types=mapOverlays,
         layer.name="R. boylii Groups",zcol="admix_groups") 
 
 m2 %>% addMouseCoordinates() %>% 
-  addLogo(paste0(here(),"/img/fylfrog_icon_resize.png"), src=c("local"),
+  addLogo(paste0(here(),"/img/fylfrog_icon_resize.png"),
           position = "bottomleft",
           offset.x = 5,
-          offset.y = 40,
+          offset.y = 80,
           width = 60,
           height = 50)
 
-
+#https://github.com/ryanpeek/ryanpeek.github.io/blob/master/img/fylfrog_icon_resize.png?raw=true
 ```
+
 
 
 Photos {data-icon="fa-picture-o"}
@@ -260,7 +502,7 @@ Column {data-width=600}
 
 > *"The face of the water, in time, became a wonderful book&mdash;a book that was a dead language to the uneducated passenger, but which told its mind to me without reserve… And it was not a book to be read once and thrown aside, for it had a new story to tell every day”* - Mark Twain, Two Views of the Mississippi, 1883
 
-```{r out.height= '50%', fig.align='center'}
+```{r out.height= '60%', fig.align='center'}
 knitr::include_graphics(paste0(here(),"/img/indian_ck.JPG"))
 ```
 
@@ -270,6 +512,6 @@ Column {data-width=400}
 
 ###
 
-```{r out.height= '60%'}
+```{r out.width= '100%'}
 knitr::include_graphics(paste0(here(),"/img/IMG_9098.JPG"))
 ```
