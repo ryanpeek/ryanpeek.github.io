@@ -25,6 +25,8 @@ This is a newer addition to the site, but I'm hoping to post/convert most of my 
     - #### [Flow regulation associated with decreased genetic health of *Rana boylii*](../slides/20180601/2018_tws_rabo_reg.html)
  - **2018-06-02 TWS** __*Rana boylii*__ *(.pdf)*
     - #### [*Rana boylii* Survey Methods](../slides/SurveyMethods_final_02June02.pdf)
+ - **2019-01-10 APTF** *(.html)*
+    - #### [Hybridization between two sympatric ranid frog species in the northern Sierra Nevada](../slides/20190110/2019_APTF_nomapview.html)
 
 <br>
 <br>
