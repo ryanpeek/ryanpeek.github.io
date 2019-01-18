@@ -1,0 +1,272 @@
+---
+categories: blog
+comments: true
+use-site-title: false
+date: "2019-01-17"
+layout: post
+tags: [R, 3d, plotly]
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
+knitr::opts_knit$set(root.dir = normalizePath("../"))
+
+```
+
+# Making a Stacked 3d Plot (and some Interpolation!)
+
+  I have a backlog of little bits of code or test projects I've helped folks with over the last few (or more) years. In trying to write more and get some more posts up that may be helpful, I'm going to try and post some shorter notes with some code, mainly as a reference for myself, and maybe as help for someone else. 
+  
+  This post is going to focus on the following:
+  
+  - How do you make a nice interactive 3d plot in R? 
+  - How do you interpolate a surface for a 3d plot?
+  - How might you stack that surface (like a bunch of pancakes) and plot it?
+  
+While this may seem like an odd conundrum, let me explain why it came about. Another researcher Jorge Andres Morande, asked how he might be able to interpolate a surface from drone data flown over agricultural fields at different heights. In particular, could you visualize these surfaces for different variables which were measured at different heights, like relative humidity, evapotranspiration, temperature, etc. See a [short report here](https://watershed.ucdavis.edu/files/Appendix%20K_ET-UAV_Delta%20Report_1.pdf) if you are interested in more details.
+
+It's an interesting question, and one that seemed fun to tackle.
+
+## Plotting with `plotly`
+
+I opted to try using a plotly plot, because it is flexible, easy to play with, and seemed one of the better 3d plotting options in R. The drone data provided us with `X`/`Y` coordinates, an altitude (`height`), and some variables like temperature and relative humidity (`rh`). For this exercise, I'm just going to make up some data, assuming a spiral flight, and some `rnorm` points for the weather metric.
+
+### Generating Data
+
+This code generates data for flight paths at 3 separate "levels" or heights, with random "`relative humidity`"" data sampled at each level.
+
+```{r makeData, echo=T, eval=T}
+
+suppressPackageStartupMessages(library(tidyverse)) # dplyr and other tools
+
+# make fake data
+t <- seq(0, 10, by=0.01)
+x <- t*cos(t)
+y <- t*sin(t)
+z1 <- rnorm(n = 1001, mean = 5, sd = .5)
+rh1 <- rnorm(n=1001, mean=34, sd=1)
+z2 <- rnorm(n = 1001, mean = 10, sd = .5)
+rh2 <- rnorm(n=1001, mean=33.9, sd=1)
+z3 <- rnorm(n = 1001, mean = 15, sd = .5)
+rh3 <- rnorm(n=1001, mean=33.8, sd=1)
+dfw1 <- data.frame(x, y, z=z1, rh=rh1, lev=1)
+dfw2 <- data.frame(x, y, z=z2, rh=rh2, lev=2)
+dfw3 <- data.frame(x, y, z=z3, rh=rh3, lev=3)
+dfw <- bind_rows(dfw1, dfw2, dfw3)
+
+```
+
+### Plotting in 3d
+
+Turns out it's not very difficult...a quick google search turned up a help page, which then helped me create the following. I show what the 2d plot looks like, then the 3D plot.
+
+```{r plotly}
+
+library(plotly)
+library(viridis)
+
+# first this is what it looks like in 2d
+
+# 2d plot
+ggplot(data=dfw, aes(x=x,y=y, group=lev))+
+  geom_path() + theme_bw() +
+  labs(title = "A Spiral Flight Path in 2D")
+
+# 3d plot
+plot_ly(dfw, x=~x, y=~y, z=~z) %>%
+  add_markers(marker=list(color=~rh, 
+                          colorscale=viridis(n = 12),
+                          colorbar=list(title='Relative. \n Humidity'))) %>% 
+  layout(title="Simulated Spiral Flight Path at 3 Heights",
+         scene = list(zaxis=list(range=c(0,20))))
+
+```
+
+## Interpolation
+
+I'm not an expert. There are many reasons and methods for interpolation, and entire books written on the subject. There are multiple ways to do this, I'm showing two that worked, linear interpolation, and spline interpolation.
+
+### Linear Interpolation
+
+The following uses `akima` and `fields` for the interpolation.
+
+```{r linearInterp}
+
+library(akima) # interpolation
+library(fields) # plotting/interp
+
+# pull out variables for one level
+x1 <- dfw1$x 
+y1 <- dfw1$y
+z1 <- dfw1$rh
+
+# using the interp linear method:
+interp1 <- interp(x1, y1, z=dfw1$rh, linear = T, nx = 90, ny = 90) # output grid 90x90
+
+glimpse(interp1) # quick check of data
+
+```
+
+We can then view our newly interpolated layer using the `raster` package, and convert the data to a raster, and extract the XY points back out from the interpolated data.
+
+```{r raster}
+
+library(raster) # for converting to raster
+
+# Raster plot
+image.plot(interp1, nlevel = 20, col = viridis(n=20))
+points(x1, y1, bg="white", col="gray80",pch=21, cex=0.5) #add the original points
+
+# Contour plot: Nice, but can't overlay points/layers
+filled.contour(interp1$x,interp1$y,interp1$z, color.palette = viridis)
+
+# Convert Data to a Raster (to extract XY)
+interp1_raster <- raster(interp1) # make a raster
+
+# Extract Data to Dataframe from Raster
+rh.linear <- as.data.frame(rasterToPoints(interp1_raster)) %>% 
+  rename(rh=layer) %>% # rename to the RH variable
+  mutate(height=mean(dfw1$z))
+
+```
+
+Finally, we can use plotly again to visualize!
+
+```{r}
+
+# Plotly Plot
+plot_ly(rh.linear, x=~x, y=~y, z=~height, 
+        marker=list(color=~rh, colorscale=viridis(n = 12), show.scale=TRUE)) %>%
+  add_markers() 
+
+```
+
+Since this is based on a partial spiral, linear interpolation is pretty messy, and it looks kind of weird, but it works. Just for fun, zoom way in on the layer until you can see the individual points that make up the grid. You can make a grid more or less dense depending on what you need, or the surface density you are interested in using. 
+
+Let's see how the spline interpolation compares to this.
+
+### Spline Interpolation
+
+Ok, so this uses a different method, but same idea, same data. Notice there are specific arguments for spatial data (`lon.lat`, `miles`). Could and probably should convert these XY points to lon/lat, or spatial data, but for now, let's move forward (and ignore the warnings).
+
+```{r spline}
+
+# Here we spline each layer or height separately
+spline1 <- Tps(data.frame(x1,y1), z1, miles = F, lon.lat = F)
+spline2 <- Tps(data.frame(dfw2$x,dfw2$y), dfw2$rh, miles = F, lon.lat = F)
+spline3 <- Tps(data.frame(dfw3$x,dfw3$y), dfw3$rh, miles = F, lon.lat = F)
+
+# get some warnings, but that's ok.
+
+# make grid 90 x 90 (can make smaller if you want fewer points)
+fullRH.grid1 <- predictSurface(spline1, nx = 90, ny = 90) 
+fullRH.grid2 <- predictSurface(spline2, nx = 90, ny = 90) 
+fullRH.grid3 <- predictSurface(spline3, nx = 90, ny = 90) 
+
+```
+
+Now we can view our grid and convert to a raster.
+
+```{r}
+
+# raster plot
+image.plot(fullRH.grid1, nlevel = 20, col = viridis(n=20), legend.args = list(text="RH", line=0.5), main=paste0("Relative Humidity at: ", round(mean(dfw1$z), digits = 2), "m"))
+points(x1, y1, cex=.5, pch=16) # add points from orig dataset
+
+# Contour plot: notice grid and contours
+filled.contour(fullRH.grid1, color.palette = viridis) 
+
+# Convert to Raster (to extract XY)
+rh1.sp <- raster(fullRH.grid1)
+rh1.spline <- as.data.frame(rasterToPoints(rh1.sp)) %>% 
+  rename(rh=layer) %>% # rename to the RH variable
+  mutate(height=mean(dfw1$z)) # take mean of the height for plotting purposes
+
+rh2.sp <- raster(fullRH.grid2)
+rh2.spline <- as.data.frame(rasterToPoints(rh2.sp)) %>% 
+  rename(rh=layer) %>% # rename to the RH variable
+  mutate(height=mean(dfw2$z))
+
+rh3.sp <- raster(fullRH.grid3)
+rh3.spline <- as.data.frame(rasterToPoints(rh3.sp)) %>% 
+  rename(rh=layer) %>% # rename to the RH variable
+  mutate(height=mean(dfw3$z))
+```
+
+Now let's view this spline interpolation using `plotly`.
+
+```{r}
+
+# set axis 
+axx <- list(
+  #nticks = 5,
+  title="X",
+  autorange = "reversed"
+  #range = c(-121.525, -121.508)
+)
+
+axy <- list(
+  #nticks = 5,
+  title="Y",
+  autorange = "reversed"
+  #range = c(38.191, 38.194)
+)
+
+axz <- list(
+  nticks = 5,
+  title="Height"
+  #range = c(5.5,6.5)
+)
+
+# put it together
+plot_ly(rh1.spline, x=~x, y=~y, z=~height, 
+        marker=list(color=~rh, colorscale=viridis(n = 12), 
+                    showscale=TRUE)) %>% 
+  layout(scene = list(xaxis=axx,
+                      yaxis=axy,
+                      zaxis=axz)) %>%
+  add_markers()
+
+```
+
+This definitely appears to be a smoother interpolation of our simulated data. 
+
+
+## Stacking a 3D Plot
+
+This sounds fancier than it is...but here it goes. First we bind our different interpolated "heights" into one single object.
+
+```{r bind_data}
+# bind all data together
+stacked.dat<- bind_rows(rh1.spline, rh2.spline, rh3.spline)
+summary(stacked.dat) # final data frame
+
+```
+
+Now we make one final plot!
+
+```{r stackedPlot}
+
+# Stacked plotly
+plot_ly(stacked.dat, x=~x, y=~y, z=~height,
+        marker=list(color=~rh, colorscale=viridis(n=6),
+                    colorbar=list(title='Simulated Rel. \n Humidity'),
+                    showscale=TRUE)) %>%
+  add_markers() %>% 
+  layout(title="Interpolated Relative Humidity at 3 Heights",
+    scene = list(xaxis = list(title = 'X'),
+                 yaxis = list(title = 'Y'),
+                 zaxis = list(title = 'Height')))
+
+```
+
+## Summary
+
+So, pretty cool, and hopefully something folks might find interesting or useful! Stay tuned for some more posts. Until then...time for pancakes. 
+
+![](https://media.giphy.com/media/l2JHZKNio4EjY6iqY/giphy.gif)
+
