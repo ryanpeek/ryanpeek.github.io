@@ -32,7 +32,7 @@ navbar-links:
     - Tadpole Gosner Staging: "http://shiny.cws.ucdavis.edu/shiny/rapeek/Gosner_photos/"
   Resources:
     - R-DAVIS: "https://gge-ucd.github.io/R-DAVIS/"
-    - Mapping in R: "https://ryanpeek.github.io/2018_river-rally-Rmapping-workshop/index.html"
+    - Mapping in R: "https://ryanpeek.github.io/mapping-in-R-workshop/"
     - Davis R Users Group: "https://d-rug.github.io/"
     - AggieBrickyard: "https://aggiebrickyard.github.io/"
     - Data Carpentry: "http://www.datacarpentry.org/"
