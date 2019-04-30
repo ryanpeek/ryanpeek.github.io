@@ -27,7 +27,7 @@ Save in website/_Rmd as post-name.rmd, source _Rutil/knitpost.R and call knitAll
 ```{r}
 source("./_Rutil/knitpost.R")
 #knitPost('2017-11-21-mapping-with-sf-part-3.Rmd')
-knitPost('2019-03-11-updating-R-mapping-website.Rmd')
+knitPost('2019-04-29-spatial-joins-in-R.Rmd')
 
 
 ```

@@ -3,13 +3,13 @@
 # and go to http://127.0.0.1:4000/
 
 # Name of website
-title: Rivers & Ranids
+title: Rivers, R, & Ranids
 bigimg: "/img/20150912_shallnotpass.jpg"
 
 # Short description of your site
 url: "http://ryanpeek.github.io"
 baseurl: ""
-description: A blog about Rivers (and Frogs)!
+description: A blog about Rivers, R, & Frogs!
 
 # --- Navigation bar options --- #
 
@@ -28,6 +28,7 @@ navbar-links:
     - Presentations: "presentations"
   Shiny Apps:
     - Thermohydrographs: "http://shiny.cws.ucdavis.edu/shiny/rapeek/thermohydrographs/"
+    - Zooplankton IEP Explorer: "https://riverpeek.shinyapps.io/zoop_IEP/"
     - Humboldt NWR Climate: "http://shiny.cws.ucdavis.edu/shiny/rapeek/Humboldt_GCM/"
     - Tadpole Gosner Staging: "http://shiny.cws.ucdavis.edu/shiny/rapeek/Gosner_photos/"
   Resources:
