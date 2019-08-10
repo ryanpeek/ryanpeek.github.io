@@ -12,7 +12,7 @@ A current version of my **curriculum vitae** is included below. You can also [do
 
 <object data="/img/rap-rmarkdown-cv.pdf" type="application/pdf" width="800px" height="800px">
     <embed src="/img/rap-rmarkdown-cv.pdf">
-        This browser does not support PDFs. Please download the PDF to view it: <a href="/pdf/Wohlfeil_CV_GRIN.pdf">Download PDF</a>.</p>
+        This browser does not support PDFs. Please download the PDF to view it: <a href="//img/rap-rmarkdown-cv.pdf">Download PDF</a>.</p>
     </embed>
 </object>
 
