@@ -437,12 +437,15 @@ sync(m1, m2)
 
 ```{r, out.height='100%', out.width='100%', eval=T, echo=F, warning=F, message=F} 
 # fig.width = 7, fig.height=6,
+library(here)
 load(paste0(here(), "/data/fig_1_rangewide_sites_maps.rda"))
 load(paste0(here(), "/data/rabo_clades_annot_sf.rda"))
+load(paste0(here(), "/data/huc8_ca_sf.rda"))
 
 # fig.width=10, fig.height=6.5}
 suppressPackageStartupMessages({
-  #library(leaflet);
+  library(leaflet);
+  library(leaflet.extras);
   library(tidyverse);
   library(sf);
   library(mapview)
@@ -469,16 +472,18 @@ mapOverlays <- c("Esri.WorldShadedRelief","Esri.WorldTopoMap",
                  "CartoDB.Positron","OpenStreetMap")  
 
 # make a quick mapview map
-m1 <- mapview(counties, alpha=0.2, alpha.regions=0.2,
-              col.regions=NA, legend=F, map.types=mapOverlays) 
-m2 <- mapview(shaff_sf, map.types=mapOverlays,
-        layer.name="McCartney-Melstad et al. 2018", col.regions="white")
+m1 <- mapview(counties, alpha=0.2, alpha.regions=0.2, layer.name="County",
+              col.regions="transparent", legend=F, map.types=mapOverlays) 
+m2 <- mapview(h8_ca, alpha.regions=0.1, alpha=0.7, color="darkblue", col.regions="transparent", lwd=3, layer.name="HUC8",
+              map.types=mapOverlays, legend=F)
+# m3 <- mapview(shaff_sf, map.types=mapOverlays,
+#         layer.name="McCartney-Melstad et al. 2018", col.regions="white")
+m4 <- m1 + m2 + mapview(annot_sf, map.types=mapOverlays,
+        layer.name="R. boylii Clades (Peek2018)",zcol="admix_groups") 
 
-m2 <- m1 + mapview(annot_sf, map.types=mapOverlays,
-        layer.name="R. boylii Groups",zcol="admix_groups") 
-
-m2 %>% addMouseCoordinates() %>% 
-  addLogo(paste0(here(),"/img/fylfrog_icon_resize.png"),
+m4 %>% #leaflet.extras::addFullscreenControl() %>% 
+  leafem::addMouseCoordinates() %>% 
+  leafem::addLogo("https://github.com/ryanpeek/ryanpeek.github.io/blob/master/img/fylfrog_icon_resize.png?raw=true",
           position = "bottomleft",
           offset.x = 5,
           offset.y = 80,
