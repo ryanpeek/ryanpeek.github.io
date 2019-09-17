@@ -1,0 +1,223 @@
+---
+categories: blog
+comments: true
+use-site-title: false
+date: "2019-09-17"
+layout: post
+tags: [R, spatial, database]
+output: 
+  html_document:
+    code_folding: hide
+---
+
+Reading databases of different types is always fun. I have to look it up each time, and now that there are many different options, it makes things even more exciting. Add that I work across both PC and OSX platforms, and the excitement can quickly become frustration. 
+
+But fear not! The R environment is rich with tools, and I probably only touch on a small proportion of them, but there are some great options for working with databases in R. I wanted to write a short post on how you can interact/read/write to a few of the more common databases using R. Mainly I wanted to put all the code in one single place so I can refer to it in the future :)
+
+I'll try to cover both spatial and non-spatial options, and largely focus on a 4 main types of databases:
+
+ - SQLite (**`.sqlite`**)
+ - Geopackages (a spatial sqlite, **`.gpkg`**)
+ - Access Databases (both **`.mdb`** and **`.accdb`**)
+ - Geodatabases (often used by ESRI ArcGIS, **`.gdb`**)
+
+## Database Types
+
+Let's **load the libraries** we're going to need first. The main libraries you'll need are the excellent [`Hmisc`](https://github.com/harrelfe/Hmisc) package (good for opening Access DB), `dplyr` (helful for most sqlite DB and wrangling data), and [`sf`](https://r-spatial.github.io/sf/). The other packages below are largely for additional plotting/utility.
+
+```{r loadlibs, echo=T, eval=F}
+
+library(Hmisc) # opening Access .mdb
+library(dplyr) # opening .sqlite
+library(RSQLite) # opening sqlite
+library(sf) # spatial everything, gpkg and gdb's
+library(here) # helpful for directories
+
+# plotting
+library(mapview)
+
+```
+
+
+```{r libseval, eval=T, echo=F, message=F, show=FALSE}
+
+# original portal data here:
+# http://esapubs.org/archive/ecol/E090/118/metadata.htm
+# pulled from here: https://ndownloader.figshare.com/files/2292171
+# example dbs from here: https://www.oreilly.com/pub/missingmanuals/access2013mm
+
+
+suppressPackageStartupMessages({
+  library(here);
+  library(sf);
+  library(RSQLite);
+  library(Hmisc);
+  library(dplyr);
+  library(viridis);
+  library(ggplot2);
+  library(mapview);
+  library(tmap)
+})
+
+```
+
+For this post, we'll be using data/databases created from an [ecological dataset from the Chihuahuan Desert](http://esapubs.org/archive/ecol/E090/118/metadata.htm). This dataset is great for learning, and has been used extensively in the [Data Carpentry Ecology lessons](https://datacarpentry.org/ecology-workshop/), and I've modified and created an Access, SQLite and csv version of the dataset. These data are available for download [here](https://github.com/ryanpeek/ryanpeek.github.io/tree/master/data/portal_db).
+
+## Opening Access Databases (`.mdb` & `.accdb`)
+
+While using Access may seem daunting, it's a very stable and common way to both enter and store data. We use these databases for biological data, and they are fairly stable, despite some idiosyncrasies.  To open an `.mdb/.accdb` Access database in R, we can use the `Hmisc` package as follows to connect to an Access database, and show what tables are in the database:
+
+```{r mdb, eval=T, echo=T}
+
+# path to .mdb database
+mdb_path <- paste0(here(), "/data/portal_db/portal_sample.accdb")
+mdb.get(mdb_path, tables=TRUE)
+
+```
+
+Next we can use `mdb.get` to actually pull these tables into R:
+
+```{r mdgGet, eval=T, echo=T}
+
+# get plot data:
+plots <- mdb.get(mdb_path, tables = "Plots")
+
+# get plot data with lat/lon info
+plots_xy <- mdb.get(mdb_path, tables = "Plots_xy")
+
+# species data
+species <- mdb.get(mdb_path, tables = "Species")
+DT::datatable(species) # show a table of data
+
+# surveys data
+surveys <- mdb.get(mdb_path, tables = "Surveys")
+
+```
+
+### Fancy `.accdb`
+
+Sometimes there are `.accdb` databases which are fancy. They have lots of cool options and have been designed to do *a lot*. I've run into issues trying to open these or access them in R. One potential work around is to split the database into a front end and backend. In this case, the front-end is essentially the queries, reporting, and forms, and the backend is the datatables.
+
+```{r mullet, out.width="50%", echo=F}
+knitr::include_graphics(paste0(here(), "/img/mullet_party.jpg"))
+```
+
+
+There's [an article here](https://support.office.com/en-us/article/split-an-access-database-3015ad18-a3a1-4e9c-a7f3-51b1d73498cc) which describes how this process works, and how you can do it. I will say I've tried this with a fancy database at work, and I've been able to read in the backend (the `.accdb` that has the data tables) without any trouble. 
+
+
+## Opening SQLite DB
+
+The good news is SQLite databases are easy to work with, they are open-source and cross-platform compatible, and you can open them with a few different packages in R.
+
+### Using `RSQLite`
+
+Here's a quick example of how to read an `sqlite` version of the portals database using `RSQLite`.
+
+```{r OpenSQLite, echo=T, eval=T}
+
+# using RSQLite
+library(RSQLite)
+
+# make a relative path to your database using the here::here() function
+dbpath <- paste0(here(), "/data/portal_db/portal_db.sqlite")
+
+# actually connect to the database
+dbcon <- dbConnect(dbDriver("SQLite"), dbpath)
+
+# list all the tables in the database:
+dbListTables(dbcon)
+
+# disconnect with database
+dbDisconnect(dbcon)
+
+```
+
+### Using `dplyr`
+
+And here's how to to do the same thing with `dplyr`. Note the argument that specifies `create=FALSE`, so we don't create/overwite an existing database.
+
+```{r dplyrSQLite, echo=T, eval=T}
+
+dbpath <-paste0(here(), "/data/portal_db/portal_db.sqlite") # path to DB
+
+dbcon <- src_sqlite(dbpath, create = FALSE) # to open but not create a DB
+
+src_tbls(dbcon) # see tables in DB
+
+```
+
+### Collect Tables from SQLite
+
+To pull a table from either of the above connection options (`RSQLite` or `dplyr`), we can use the `tbl()` and `collect` functions in dplyr.
+
+```{r collectPlots, eval=T, echo=T}
+
+# collect a table
+plots <- tbl(dbcon, "plots") %>% collect()
+
+# preview the table
+glimpse(plots)
+
+```
+
+
+## Spatial Databases (Geopackage `gpkg` & `GDB`)
+
+I wrote a post on geopackage and [how great it is here](https://ryanpeek.github.io/mapping-in-R-workshop/spatial_export_import_gpkg.html), so be sure to check it out. It's essentially a spatial sqlite database, and it's a great option for working with spatial data (including both vector and raster datatypes). An extra perk is that you can store simple flat tables, csvs, etc in a geopackage just as you would in access or sqlite, but with the added benefit that should you want to keep spatial data too, you can.
+
+To connect and access geopackage data, we'll want to use the `sf` package. For this example I'm using the dataset from my previous post, which you can [download here](https://github.com/ryanpeek/mapping-in-R-workshop/raw/master/data/gpkg_in_R_example.gpkg) if you want to play along.
+
+
+```{r sfgeopackage, eval=T, echo=T}
+
+library(sf)
+
+# check available layers from a geopackage
+st_layers(paste0(here::here(), "/data/gpkg_in_R_example.gpkg"))
+
+```
+
+Next we can actually bring a layer into R, and interact with it. The `sf` package is great because it uses simple dataframes with a spatial list-column tacked at the end. Here we read in a spatial object (e.g., a shapfile), and then make a quick interactive map!
+
+```{r readgpkg, eval=T, echo=T}
+
+# read in layers, suppress messages with quiet=TRUE
+usgs <- st_read(paste0(here::here(), "/data/gpkg_in_R_example.gpkg"), layer='usgs_gages_clean', quiet = FALSE)
+
+# check what the data class is:
+class(usgs)
+
+# check the CRS/projections:
+st_crs(usgs)
+
+# view a map of spatial data!
+mapview(usgs, col.regions="skyblue", alpha.regions=0.6, layer.name="USGS Gages")
+```
+
+Really simple and clean. 
+
+
+### `GDB`
+
+The process is pretty much the same for a GDB. I don't have an example GDB to play with here, but the code below would work just the same. For more info, definitely check out the [`sf`](https://r-spatial.github.io/sf/index.html) website.
+
+```{r gdb, eval=F, echo=T}
+
+yourlayer <- st_read(dsn = "my_large_geospatial_DB.gdb", layer = "my_interesting_spatial_layer")
+
+```
+
+
+## Summary
+
+I'll try to update this with more info on writing to a database in the future, but the same packages are used and the process is largely the same. Hope this is helpful! There are probably many other snippets, packages, and options available that I haven't covered here, but hopefully this gets things started. 
+
+
+```{r newt, out.width="75%", eval=T, echo=F, fig.cap="Sierra newt in moss"}
+
+knitr::include_graphics(paste0(here(), "/img/sierra_newt.jpg"))
+
+```
+
+
