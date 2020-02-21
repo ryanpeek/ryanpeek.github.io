@@ -204,7 +204,29 @@ The process is pretty much the same for a GDB. I don't have an example GDB to pl
 
 ```{r gdb, eval=F, echo=T}
 
-yourlayer <- st_read(dsn = "my_large_geospatial_DB.gdb", layer = "my_interesting_spatial_layer")
+# an example GDB (found on Stack Overflow here:https://gis.stackexchange.com/questions/184013/read-a-table-from-an-esri-file-geodatabase-gdb-using-r)
+download.file(url = "https://coast.noaa.gov/htdata/CMSP/AISDataHandler/2014/01/Zone9_2014_01.zip", destfile = "data/Zone9_2014.zip")
+unzip("data/Zone9_2014.zip", exdir = ".") # about 177 MB
+
+gdb_dsn <- paste0(here::here(),"/data/Zone9_2014_01.gdb") 
+
+# Check out the layers in the database
+st_layers(dsn = gdb_dsn, do_count=TRUE)
+
+# read a spatial object as "sf"
+broadcast <- st_read(dsn = gdb_dsn, layer = "Zone9_2014_01_Broadcast")
+
+# read a table
+voyage <- st_read(dsn = gdb_dsn, layer = "Zone9_2014_01_Voyage")
+
+# join the two by VoyageID and MMSI
+ships <- inner_join(broadcast, voyage)
+
+mapview()
+
+#st_write(sf.object, dsn = "filepath/FileGeoDatabase.gbd",layer="name of output layer", driver="ESRI Shapefile")
+
+# https://catalog.data.gov/dataset/cwpp-for-portal-gdb
 
 ```
 
