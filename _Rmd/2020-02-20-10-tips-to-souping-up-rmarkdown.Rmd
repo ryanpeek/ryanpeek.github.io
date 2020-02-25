@@ -141,7 +141,7 @@ somecode <- doing_code
 
 ## 5. Including variables in R chunks from other R chunks! {#S5} 
 
-This is pretty cool. I saw this on twitter and didn't save the source, so if someone can find the originator of this tip, please let me know and I'll give credit. We can use variables in code chunks to inform things in other code chunks. For example, let's play around with the figure size a bit. Maybe instead of specifying figures that we want to be wide will be 7 inches and normal figures will be 75%, we can set those variables at the beginning in a chunk.
+This is pretty cool. I saw this tip recently on twitter by Andrew Heiss [here](https://twitter.com/andrewheiss/status/1228539690069962754), (and thanks Yihui!). We can use variables in code chunks to inform things in other code chunks. For example, let's play around with the figure size a bit. Maybe instead of specifying figures that we want to be wide will be 7 inches and normal figures will be 75%, we can set those variables at the beginning in a chunk.
 
 ```{r setFigOptions, echo=TRUE}
 # figure sizes
