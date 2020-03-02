@@ -7,7 +7,7 @@ title: Rivers, R, & Ranids
 bigimg: "/img/20150912_shallnotpass.jpg"
 
 # Short description of your site
-url: "http://ryanpeek.github.io"
+url: "http://ryanpeek.org"
 baseurl: ""
 description: A blog about Rivers, R, & Frogs!
 
@@ -21,7 +21,7 @@ navbar-links:
     - Archives: "tags"
   Research:
     - Rana boylii Research: "flexdash_rabo.html"
-    - RADSeq/RAPTURE Pipeline: "https://ryanpeek.github.io/radseq"
+    - RADSeq/RAPTURE Pipeline: "https://ryanpeek.org/radseq"
     - Sierra Rivers Monitoring: "https://watershed.ucdavis.edu/project/long-term-river-monitoring"
     - River Time-Lapse: "https://vimeo.com/164154774"
     - Meadows: "http://meadows.ucdavis.edu"
@@ -33,7 +33,7 @@ navbar-links:
     - Tadpole Gosner Staging: "http://shiny.cws.ucdavis.edu/shiny/rapeek/Gosner_photos/"
   Resources:
     - R-DAVIS: "https://gge-ucd.github.io/R-DAVIS/"
-    - Mapping in R: "https://ryanpeek.github.io/mapping-in-R-workshop/"
+    - Mapping in R: "https://ryanpeek.org/mapping-in-R-workshop/"
     - Davis R Users Group: "https://d-rug.github.io/"
     - AggieBrickyard: "https://aggiebrickyard.github.io/"
     - Data Carpentry: "http://www.datacarpentry.org/"
@@ -96,7 +96,7 @@ share-links-active:
 
 # How to display the link to the website in the footer
 # Remove this if you don't want a link in the footer
-url-pretty: "ryanpeek.github.io"
+url-pretty: "ryanpeek.org"
 
 # --- Web Statistics Section --- #
 
