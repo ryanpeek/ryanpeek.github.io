@@ -1,14 +1,13 @@
 # --- General options --- #
 # To run in jekyll: bundle exec jekyll serve
-# and go to http://127.0.0.1:4000/
 
 # Name of website
 title: Rivers, R, & Ranids
 bigimg: "/img/20150912_shallnotpass.jpg"
 
 # Short description of your site
-url: "http://ryanpeek.org"
-baseurl: ""
+#url: "http://ryanpeek.org"
+#baseurl: ""
 description: A blog about Rivers, R, & Frogs!
 
 # --- Navigation bar options --- #
@@ -105,7 +104,6 @@ url-pretty: "ryanpeek.org"
 
 # Fill in your Google Analytics ID to track your website using GA
 google_analytics: "UA-87260839-1"
-# old through gmail "UA-80552998-1""
 
 # Google Tag Manager ID
 #gtm: ""
@@ -133,6 +131,9 @@ excerpt_length: 50
 # Character used to separate site title and description in HTML document title
 # and RSS feed title
 title-separator: "-"
+
+# Ruby Date Format
+date_format: "%B %-d, %Y"
 
 # --- Don't need to touch anything below here (but you can if you want) --- #
 
@@ -166,16 +167,18 @@ defaults:
 # Use tags index page and make tags on each post clickable
 link-tags: true
 
+excerpt_separator: ""
+
 # Exclude these files from production site
 exclude:
+  - CHANGELOG.md
+  - CNAME
+  - Dockerfile
   - Gemfile
   - Gemfile.lock
   - LICENSE
   - README.md
-  - CNAME
   - Vagrantfile
-  - Dockerfile
-  - CHANGELOG.md
 
 # prose.io config
 prose:
