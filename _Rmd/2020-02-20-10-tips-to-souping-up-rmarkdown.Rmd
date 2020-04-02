@@ -53,7 +53,7 @@ For example, let's look at this picture of a can of soup, using a weblink.
 ```{r knitrsoup1, fig.cap= "a beatiful can of soup from a web URL", echo=TRUE, eval=TRUE, out.width="70%"}
 
 # straight from web:
-knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Can%2C_food_%28AM_2007.41.2-1%29.jpg/766px-Can%2C_food_%28AM_2007.41.2-1%29.jpg")
+knitr::include_graphics('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Can%2C_food_%28AM_2007.41.2-1%29.jpg/766px-Can%2C_food_%28AM_2007.41.2-1%29.jpg')
 
 ```
 
