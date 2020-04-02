@@ -43,9 +43,9 @@ Here's an internally linked list to the sections! To link, you can add a `{#cust
  > 10. [Maps Maps Maps!](#S10)
  
 
-## 1. Using `knitr::include_graphic` and `here::here()` {#S1} 
+## 1. Using `knitr::include_graphics` and `here::here()` {#S1} 
 
-This one is something I use **pretty much always**. It has made things soo much easier in many ways. It's also very flexible. By calling a graphic (could be a figure, picture, plot, whatever) inside an R-chunk with `knitr::include_graphic()` instead of using the markdown syntax (`![](path/to/figure)`), you can control the size, placement, etc etc. Even better, when you are using RStudio projects, you can use relative pathnames to a file on your computer instead of having to deal with the pain of using the `..` to signify going "*up*" a directory outside of the place the `.Rmd` lives. Zev Ross has a great post showing how to resize and customize images and figures in Rmarkdown...[check it out here](http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/).
+This one is something I use **pretty much always**. It has made things soo much easier in many ways. It's also very flexible. By calling a graphic (could be a figure, picture, plot, whatever) inside an R-chunk with `knitr::include_graphics()` instead of using the markdown syntax (`![](path/to/figure)`), you can control the size, placement, etc etc. Even better, when you are using RStudio projects, you can use relative pathnames to a file on your computer instead of having to deal with the pain of using the `..` to signify going "*up*" a directory outside of the place the `.Rmd` lives. Zev Ross has a great post showing how to resize and customize images and figures in Rmarkdown...[check it out here](http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/).
 
 For example, let's look at this picture of a can of soup, using a weblink. 
 

@@ -16,7 +16,7 @@ Save in website/_Rmd as post-name.rmd, source _Rutil/knitpost.R and call knitAll
 ### RMarkdown blogging
 
  - .Rmd files go in `_Rmd`
- - `source(Rutils/knitpost`
+ - `source('_Rutil/knitpost.R')`
  
  - call `knitPost('file-name')` or `knitAll()`
  - .md file should land in _posts/blog/
@@ -27,7 +27,7 @@ Save in website/_Rmd as post-name.rmd, source _Rutil/knitpost.R and call knitAll
 ```{r}
 source("./_Rutil/knitpost.R")
 #knitPost('2017-11-21-mapping-with-sf-part-3.Rmd')
-knitPost('2019-04-29-spatial-joins-in-R.Rmd')
+knitPost('2019-09-17-reading-databases-in-R.Rmd')
 
 
 ```
