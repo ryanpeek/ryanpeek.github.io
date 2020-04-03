@@ -262,7 +262,7 @@ ggplot() +
 
 When knitting as `.html`, we have the ability to add some cool interactivity to our plots pretty easily. By using the `{plotly}` package, and the `ggplotly` function, we can instantly add the ability to interact with a plot inside the `.html` file. Let's make the plot from the last chunk "interactive". Unfortunately it won't work with our fun soup bowls, but we can use points instead.
 
-```{r interactive, warning=FALSE, message=FALSE, echo=TRUE}
+```{r interactive, eval=FALSE, warning=FALSE, message=FALSE, echo=TRUE}
 library(plotly)
 
 ggplotly(

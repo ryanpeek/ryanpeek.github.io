@@ -132,7 +132,7 @@ excerpt_length: 50
 # and RSS feed title
 title-separator: "-"
 
-excerpt_separator: " "
+#excerpt_separator: " "
 
 # Ruby Date Format
 date_format: "%B %-d, %Y"
