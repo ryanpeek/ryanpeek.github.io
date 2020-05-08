@@ -52,32 +52,40 @@ Row
 
 ```{r echo=F, warning=F, message=F, fig.width=10, fig.height=6.5}
 library(leaflet)
+library(mapview)
 library(tidyverse)
 library(sf)
 
-# Rana boylii range
-poly<- st_read("data/shps/RABO_Potential_Range_CAandOR.shp", quiet=T)
-poly<- st_transform(poly, crs=4326)
+# Rana boylii range (rabo_range)
+load(paste0(here::here(),"/data/RABO_Potential_Range_CAandOR.rda"))
 
-# All RABO Points
-#rbpts<- st_read("data/shps/RABO_All_Records_thru_2010_full_v4.shp", quiet = T)
-#rbpts <- st_transform(rbpts, crs=4326)
+# All RABO Points (rabo_pts)
+load(paste0(here::here(), "/data/RABO_all_records_thru_2010_v4.rda"))
 
 # Hydrology
-h8 <- st_read("data/shps/hydrology/HUC8_named_westcoast.shp", quiet=T)
+load(paste0(here::here(), "/data/huc8_simplify_wcoast_named.rda"))
+h8 <- h8_simp %>% st_transform(4326)
 
-# this is all conversions to make a nice named shapefile of H8's for OR and CA:
+# unzip("/Users/ryanpeek/Documents/github/rana_gis/data/shps/HUC/HUC8_named_westcoast.zip",exdir = "data", overwrite = TRUE)
+# h8w <- st_read("data/HUC8_named_westcoast.shp")
+# # project US National Atlas Equal Area (epsg = 2163)
+# h8w <- h8w %>% st_transform(2163)
+# 
+# # simplify
+# # use rmapshaper to avoid gaps/slivers, keep 10% of original points
+# h8_simp <- rmapshaper::ms_simplify(h8w, keep = 0.10, keep_shapes = TRUE)
+# 
+# # quick check
+# mapview(h8_simp, color="steelblue", col.regions="gray50")
+# 
+# save(h8_simp, file = "data/huc8_simplify_wcoast_named.rda")
 
-# h8_OR <- st_read("data/shps/hydrology/h8_OR_named.shp", quiet = T, stringsAsFactors = F) 
-# h8_OR <- st_transform(h8_OR, crs = 4326)
-# h8_CA <- st_read("data/shps/hydrology/wbdhu8_a_ca.shp", quiet = T,stringsAsFactors = F) %>% 
-#   rename(HUC_8=HUC8)
-# h8_CA <- st_transform(h8_CA, crs = 4326)
-# h8_CA <- select(h8_CA, HUC_8:Name,AreaAcres, AreaSqKm) %>% rename(HU_8_NAME=Name)
-
-# h8<- st_read("data/shps/hydrology/HUC_8_WESTCOAST.shp", quiet = T, stringsAsFactors = F) %>% 
-  # select(HUC_8, HU_8_NAME, ACRES)
-# h8 <- st_transform(h8, crs = 4326)
+# # h12
+# load(paste0(here::here(), "/data/huc12_sf.rda"))
+# 
+# # dissolve to h8
+# h8 <- h12 %>% group_by(HUC_8) %>% 
+#   summarize()
 
 # cool way to merge multiple SHAPES on a given ID
 # h8_named<-list(h8_CA, h8_OR) %>% 
@@ -85,27 +93,30 @@ h8 <- st_read("data/shps/hydrology/HUC8_named_westcoast.shp", quiet=T)
   # prepend(list(h8)) %>% 
   # reduce(left_join, by="HUC_8")
 
-# h8_named <- select(h8_named, HUC_8, HU_8_NAME.x, HU_8_NAME.y, AreaAcres, AreaSqKm, SHAPE_Area)
-# h8_named$HU_8_NAME <- ifelse(is.na(h8_named$HU_8_NAME.x), h8_named$HU_8_NAME.y, h8_named$HU_8_NAME.x)
-# h8_named <- select(h8_named, HUC_8, HU_8_NAME, AreaAcres, AreaSqKm, SHAPE_Area)
-# st_write(h8_named, "data/shps/hydrology/HUC8_named_westcoast.shp")
-
 # Glacial Extent
-glacExtent <- st_read("data/shps/glacial_extent_18kaBP/glacial_extent_18kaBP.shp", quiet = T)
+glacExtent <- read_sf(paste0(here::here(),"/data/glacial_extent_18kaBP/glacial_extent_18kaBP.shp"))
 
 # mines
-minesall <- st_read("data/shps/Mines_CA/Mines_CA.shp", quiet = T)
-minepits <- st_read("data/shps/Hydraulic_Mine_Pits_of_California/Hydraulic_Mine_Pits_of_California.shp", quiet=T)
+unzip(paste0(here::here(), "/data/Mines_CA.zip"), exdir = paste0(here::here(), "/data/Mines_CA"))
+minesall <- read_sf(paste0(here::here(),"/data/Mines_CA/Mines_CA.shp"))
+fs::dir_delete(paste0(here::here(),"/data/Mines_CA"))
+
+# hydraulic pits
+minepits <- read_sf(paste0(here::here(),"/data/Hydraulic_Mine_Pits_of_California/Hydraulic_Mine_Pits_of_California.shp"))
+
 #dams <- st_read("data/shps/CA_OR_dams.shp")
 
-# frog samples
-frogs<- read_csv("data_output/rapture04_metadata_hucs_nhd_quant.csv")
+# frog clades
+load(paste0(here::here(),"/data/rabo_clades_annot_sf.rda"))
 
 # need to convert/reproject to global mercator for mapping: EPSG:3857, lat long: 4326
 glacExtent <- st_transform(glacExtent, crs = 4326)
 minesall <- st_transform(minesall, crs=4326)
 minepits <- st_transform(minepits, crs=4326)
 #dams <- st_transform(dams, crs=4326)
+
+# set clade colors
+cladeCol <- colorFactor("viridis", annot_sf$admix_groups)
 
 #### MAP
 
@@ -122,11 +133,22 @@ MAP<-leaflet() %>%
   hideGroup("HUC8") %>%
   
   # Historical Range
-  addPolygons(data = poly, group = "RABO HistRange", weight = 4,stroke = TRUE,
+  addPolygons(data = rabo_range, group = "RABO HistRange", weight = 4,stroke = TRUE,
               opacity = 0.3, color = "forestgreen", fillColor= "forestgreen") %>%
   hideGroup("RABO HistRange") %>%
-
-  # hydraulic mines
+  
+  # rabo_clades
+  addCircleMarkers(data = annot_sf, group = "RABO Clades", weight = .5,
+                   stroke = TRUE, radius=5, fillOpacity = 0.7,
+                   opacity = 0.3,  fillColor= ~cladeCol(admix_groups),
+                   popup=paste0("River: ", annot_sf$River, "<br>",
+                           "SampleID: ", annot_sf$SampleID,"<br>",
+                           "Clade: ", annot_sf$admix_groups,"<br>",
+                           "County: ", annot_sf$county)
+                   ) %>%
+  hideGroup("RABO Clades") %>%
+  
+    # hydraulic mines
   addPolygons(data=minepits, group="Mine Pits", color="#8B4513", fillColor="#CD661D",
               stroke=TRUE, weight = 1.7, fillOpacity = 0.65,
               popup=paste0("Pit Name: ", minepits$Pit_Name, "<br>",
@@ -205,21 +227,21 @@ MAP<-leaflet() %>%
   # 
   
   # add RANA samples
-  addCircleMarkers(data=frogs, group="Rana Samples",
-                   lng = ~lon, lat=~lat,opacity = 0.5,
-                   popup=paste0("Locality: ", frogs$Locality, "<br>",
-                                "HUC12: ", frogs$HUC_12, 
-                                "<br>","SampleID: ",frogs$SampleID,
-                                "<br>", "SPP_ID: ",frogs$SPP_ID,
-                                "<br>", "Elev (m): ", frogs$elev_m, "<br>",
-                                "StreamName: ", frogs$GNIS_NAME),
-                   weight=0.6,radius=10, stroke=TRUE,
-                   fillColor = ifelse(frogs$SPP_ID=="RABO" | frogs$SPP_pc1=="RABO", "yellow", "dodgerblue")) %>%
-  hideGroup("Peek Samples") %>% 
+  # addCircleMarkers(data=frogs, group="Rana Samples",
+  #                  lng = ~lon, lat=~lat,opacity = 0.5,
+  #                  popup=paste0("Locality: ", frogs$Locality, "<br>",
+  #                               "HUC12: ", frogs$HUC_12, 
+  #                               "<br>","SampleID: ",frogs$SampleID,
+  #                               "<br>", "SPP_ID: ",frogs$SPP_ID,
+  #                               "<br>", "Elev (m): ", frogs$elev_m, "<br>",
+  #                               "StreamName: ", frogs$GNIS_NAME),
+  #                  weight=0.6,radius=10, stroke=TRUE,
+  #                  fillColor = ifelse(frogs$SPP_ID=="RABO" | frogs$SPP_pc1=="RABO", "yellow", "dodgerblue")) %>%
+  # hideGroup("Peek Samples") %>% 
   
   addLayersControl(
     baseGroups = c("Topo","ESRI Aerial", "OSM Features"),
-    overlayGroups = c("Rana Samples", "Mine Pits", "CA Mines", 
+    overlayGroups = c("RABO Clades", "Mine Pits", "CA Mines", 
                       "RABO HistRange", "HUC8", 
                       "Glacial Extent 18ka BP"
                       ),
