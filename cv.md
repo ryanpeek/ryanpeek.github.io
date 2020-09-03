@@ -6,13 +6,13 @@ permalink: /cv/
 
 ### CV: _"the course of one's life"_
 
-A current version of my **curriculum vitae** is included below. You can also [download the PDF here](/img/rap-rmarkdown-cv.pdf).
+A current version of my **curriculum vitae** is included below. You can also [download the PDF here](/img/peek_cv.pdf).
 
 <!--(https://www.dropbox.com/s/jh19qlprx4xroc4/rap-rmarkdown-cv.pdf).-->
 
-<object data="/img/rap-rmarkdown-cv.pdf" type="application/pdf" width="800px" height="800px">
-    <embed src="/img/rap-rmarkdown-cv.pdf">
-        This browser does not support PDFs. Please download the PDF to view it: <a href="/img/rap-rmarkdown-cv.pdf">Download PDF</a>.</p>
+<object data="/img/peek_cv.pdf" type="application/pdf" width="800px" height="800px">
+    <embed src="/img/peek_cv.pdf">
+        This browser does not support PDFs. Please download the PDF to view it: <a href="/img/peek_cv.pdf">Download PDF</a>.</p>
     </embed>
 </object>
 
