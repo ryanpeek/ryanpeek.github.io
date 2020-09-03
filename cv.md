@@ -8,7 +8,9 @@ permalink: /cv/
 
 A current version of my **curriculum vitae** is included below. You can also [download the PDF here](/img/peek_cv.pdf).
 
-<!--(https://www.dropbox.com/s/jh19qlprx4xroc4/rap-rmarkdown-cv.pdf).-->
+<!-- 
+<iframe src="/img/peek_cv.html" width="800px" height="800px" seamless></iframe>
+-->
 
 <object data="/img/peek_cv.pdf" type="application/pdf" width="800px" height="800px">
     <embed src="/img/peek_cv.pdf">
