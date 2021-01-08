@@ -1,10 +1,53 @@
 ---
-title: "Quoted"
+title: "website_management"
 categories: blog
 date: "`r format(Sys.time(), '%Y-%m-%d')`"
 layout: post
 bibliography: '../Peek-bibkey-2016.bib'
 ---
+
+## Dealing with `ruby`
+
+To keep things up to date, highly recommend using `rbenv`. Once installed, can use this to check for available versions:
+
+    `rbenv install -l`
+
+Then install new version of ruby:
+    `rbenv install 2.7.2`
+
+### check ruby version and use rehash to set paths:
+
+check the version: `ruby -v`
+rehash: `rbenv rehash`
+
+### set the global version to use
+
+`rbenv global 2.7.2`
+`ruby -v`
+`rbenv versions`
+
+## Update Jekyll & Bundler
+
+First we need to install bundler and jekyll to build up our site:
+
+ - `gem install bundler jekyll`
+ 
+Now we can actually run stuff in the directory where the `Gemfile` lives:
+
+ - `bundle update`
+ - `bundle install`
+
+# Update and View website!
+
+To preview the website, we can use this:
+
+ - `bundle exec jekyll serve`
+ 
+If we have a drafts folder and want to see what the posts in drafts would look like, use this:
+
+ - `bundle exec jekyll serve --drafts`
+
+## Locations
 
 feature and teaser image paths start at website/images/
 
