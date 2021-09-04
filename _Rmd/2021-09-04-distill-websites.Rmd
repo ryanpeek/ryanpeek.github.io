@@ -1,0 +1,47 @@
+---
+categories: blog
+comments: false
+use-site-title: false
+title: "Making sure this still works..."
+description: |
+  A short update and thumbs up for using Distill.
+date: "`r Sys.Date()`"
+layout: post
+output: 
+  html_document:
+    code_folding: hide
+    toc: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+It's been a long long while since I've been able to have space or time to write a post, and so I thought it a good plan to just post something to make sure this all still works, and give a shout out to the amazing Distill + Netlify combination for webpage management. So apologies if this post wanders around a bit.
+
+Recently Rich Pauloo and I co-created a new R course designed for water resources folks, with a intro and intermediate focus. We've taught the intro courses (all virtual thus far) and are about to embark on teaching the intermediate courses soon.
+
+So this is a post is mainly a shout out for the really amazing tools that [Distill for R Markdown](https://rstudio.github.io/distill) and Netlify are.
+
+## Distill: It works with limited time and mental capacity
+
+Not sure about you all, but life has not been easy over the last year and a half...juggling little ones at home, work, and general life has not been smooth. So when trying to work on things it's really great when you can find and use tools that just work, so time can be spent being more efficient and limiting the time spent fiddling/fixing things. Enter **Distill**. I really love how feature rich these RMarkdown templates are for writing, yet how simple they are to manage and render. We decided to construct our [r4wrds course website](www.r4wrds.com) completely in Distill, and it was really a pleasant experience. I can't really think of any feature that I really wish existed that isn't already part of distill (ok maybe a floating TOC would be nice!). 
+
+The [**Distill website**](https://rstudio.github.io/distill) is excellent and provides a great set of lessons and examples for setting up just about anything you might want.
+
+## Github + Netlify + Distill is amazing
+
+Collaborating via Github can be hard sometimes, but a big shoutout to my collaborator Rich for making it really fun and a solid experience. We used a branch + pull request + plus review system that worked really well for all our lessons. With a few minor reorganization needs, we really didn't have any issues (well we filed a lot of issues...but that's different!). Enter Netlify. We initially played around with using a Github Pages rendering option, but it wasn't very straightforward and it was very very slow. 
+
+So we tried switching over to Netlify, and wow...it's fast, it makes updating things easy, and even better, it provides quick previews for our pull requests via Github. 
+
+There's some great resources by much more talented folks than I, so just linking to those here...but definitely check them out and give distill a try!
+
+ - [Distill](https://rstudio.github.io/distill)
+ - [RStudio Blog on Distill](https://education.rstudio.com/blog/2021/02/distill-it-down/)
+ - Great [distill webinar](https://www.youtube.com/watch?v=QcE4RBH2auQ) by Alison Hill & Desirée De Leon
+ - [Nice tutorial on setting up a blog with distill](https://themockup.blog/posts/2020-08-01-building-a-blog-with-distill/)
+
+
+
+

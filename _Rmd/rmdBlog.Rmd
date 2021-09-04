@@ -70,8 +70,7 @@ Save in website/_Rmd as post-name.rmd, source _Rutil/knitpost.R and call knitAll
 ```{r}
 source("./_Rutil/knitpost.R")
 #knitPost('2017-11-21-mapping-with-sf-part-3.Rmd')
-knitPost('2019-09-17-reading-databases-in-R.Rmd')
-
+knitPost('2021-09-04-distill-websites.Rmd')
 
 ```
 
