@@ -23,7 +23,8 @@ navbar-links:
     - CA Stream Thermal Classification: "https://californiawaterblog.com/2021/08/29/dammed-hot-californias-regulated-streams-fail-cold-water-ecosystems/"
     - Sierra Rivers Monitoring: "https://watershed.ucdavis.edu/project/long-term-river-monitoring"
     - River Time-Lapse: "https://vimeo.com/164154774"
-    - Meadows: "http://meadows.ucdavis.edu"
+    - RADSeq: "https://ryanpeek.github.io/radseq"
+    - Meadows: "https://meadows.ucdavis.edu"
     - Presentations: "presentations"
   Shiny Apps:
     - Thermohydrographs: "http://shiny.cws.ucdavis.edu/shiny/rapeek/thermohydrographs/"
