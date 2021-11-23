@@ -122,7 +122,7 @@ google_analytics: "UA-87260839-1"
 #--- Comments ----#
 
 # Fill in your Disqus shortname (NOT the userid) if you want to support Disqus comments
-disqus: "ryanpeek-github-io"
+#disqus: "ryanpeek-github-io"
 
 #----- Misc ------#
 
