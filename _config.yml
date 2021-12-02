@@ -29,7 +29,7 @@ navbar-links:
   Shiny Apps:
     - Thermohydrographs: "https://aquapeek.shinyapps.io/thermohydrographs/"
     - Zooplankton IEP Explorer: "https://riverpeek.shinyapps.io/zoop_IEP/"
-    - Humboldt NWR Climate: "http://riverpeek.shinyapps.io/Humboldt_GCM/"
+    #- Humboldt NWR Climate: "http://riverpeek.shinyapps.io/Humboldt_GCM/"
     #- Tadpole Gosner Staging: "http://shiny.cws.ucdavis.edu/shiny/rapeek/Gosner_photos/"
   Resources:
     - R4WRDS: "https://www.r4wrds.com/"
