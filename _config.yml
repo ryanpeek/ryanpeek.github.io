@@ -23,7 +23,7 @@ navbar-links:
     - CA Stream Thermal Classification: "https://californiawaterblog.com/2021/08/29/dammed-hot-californias-regulated-streams-fail-cold-water-ecosystems/"
     - Sierra Rivers Monitoring: "https://watershed.ucdavis.edu/project/long-term-river-monitoring"
     - River Time-Lapse: "https://vimeo.com/164154774"
-    - RADSeq: "https://ryanpeek.github.io/radseq"
+    - RADSeq: "https://radseq-overview.netlify.app/"
     - Meadows: "https://meadows.ucdavis.edu"
     - Presentations: "presentations"
   Shiny Apps:
@@ -34,7 +34,7 @@ navbar-links:
   Resources:
     - R4WRDS: "https://www.r4wrds.com/"
     - R-DAVIS: "https://gge-ucd.github.io/R-DAVIS/"
-    - Mapping in R: "https://ryanpeek.org/mapping-in-R-workshop/"
+    - Mapping in R: "https://mapping-in-r-workshop.netlify.app/"
     - Davis R Users Group: "https://d-rug.github.io/"
     - AggieBrickyard: "https://aggiebrickyard.github.io/"
     - Data Carpentry: "https://www.datacarpentry.org/"
