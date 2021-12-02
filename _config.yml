@@ -34,7 +34,7 @@ navbar-links:
   Resources:
     - R4WRDS: "https://www.r4wrds.com/"
     - R-DAVIS: "https://gge-ucd.github.io/R-DAVIS/"
-    - Mapping in R: "https://mapping-in-r-workshop.netlify.app/"
+    - Mapping in R: "https://mapping-in-r-workshop.ryanpeek.org"
     - Davis R Users Group: "https://d-rug.github.io/"
     - AggieBrickyard: "https://aggiebrickyard.github.io/"
     - Data Carpentry: "https://www.datacarpentry.org/"
