@@ -6,7 +6,7 @@ title: Rivers, R, & Ranids
 bigimg: "/img/20150912_shallnotpass.jpg"
 
 # Short description of your site
-#url: "http://ryanpeek.org"
+url: "https://ryanpeek.org"
 #baseurl: ""
 description: A blog about Rivers, R, & Frogs!
 
@@ -41,11 +41,11 @@ navbar-links:
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
-avatar: "/img/P1080821.JPG"
+avatar: "/img/P1080821.JPG"  ## profile pic: P1080821.JPG
 
 # If you want to have an image logo in the top-left corner instead of the title text,
 # then specify the following parameter
-# title-img: /path/to/image
+title-img: "/img/rabo_safari-pinned-tab.svg"
 
 #----Background Color/Image Options----#
 
