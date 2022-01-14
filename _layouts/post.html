@@ -64,14 +64,16 @@ layout: base
         </li>
         {% endif %}
       </ul>
-      {% if page.comments %}
-        <div class="disqus-comments">
-          {% include disqus.html %}
-        </div>
-          {% include fb-comment.html %}
-      {% endif %}
     </div>
   </div>
 </div>
 
-{% include utterances.html type="post" %}
+<div class="row">
+       <script src="https://utteranc.es/client.js"
+        repo="https://github.com/ryanpeek/ryanpeek.github.io"
+        issue-term="url"
+        theme="github-dark-orange"
+        crossorigin="anonymous"
+        async>
+      </script>
+</div>
