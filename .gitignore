@@ -14,3 +14,7 @@ Thumbs.db
 # random
 #data/
 _cache/
+
+# bundle stuff
+.bundle/
+vendor/
