@@ -78,16 +78,4 @@ knitPost('2021-09-04-distill-websites.Rmd')
 
 Use `bundle exec jekyll serve` to build a local version of the website. You can also use `bundle exec jekyll serve --no-watch` to avoid the auto watch for changes. To end, just use `bundle exec jekyll serve --detach` to kill process.
 
-```{r refs, warning=FALSE}
-library(RefManageR, quietly = T, verbose = F)
-bib <- ReadBib("../Peek-bibkey-2016.bib") # Change to whatever is your .bib file
-#myopts <- BibOptions(bib.style = "authoryear", style="latex", first.inits=FALSE, max.names = 20)
-#Citet(bib, author="lind", .opts=list(cite.style="numeric", super=TRUE))
 
-```
-
-## Required Readings
-
-Read this stuff [@Lind2011, @Kupferberg1996]
-
-## Citations
